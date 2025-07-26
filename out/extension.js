@@ -242,29 +242,57 @@ function activate(context) {
             const edits = [];
             const text = document.getText();
             const lines = text.split('\n');
+            let currentIndentLevel = 0;
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i];
                 const trimmedLine = line.trim();
                 if (trimmedLine) {
-                    // 计算正确的缩进
-                    let indentLevel = 0;
-                    // 检查是否是函数定义、类定义、条件语句等
-                    if (trimmedLine.startsWith('fn ') || trimmedLine.startsWith('class ') ||
-                        trimmedLine.startsWith('if ') || trimmedLine.startsWith('elif ') ||
-                        trimmedLine.startsWith('else:') || trimmedLine.startsWith('while ') ||
-                        trimmedLine.startsWith('for ')) {
-                        indentLevel = 0;
+                    // 检查是否是结束语句（减少缩进）
+                    if (trimmedLine.startsWith('else:') || trimmedLine.startsWith('elif ')) {
+                        currentIndentLevel = Math.max(0, currentIndentLevel - 1);
+                    }
+                    // 计算当前行的缩进
+                    let lineIndentLevel = currentIndentLevel;
+                    // 检查是否是开始语句（下一行需要增加缩进）
+                    if (trimmedLine.endsWith(':') && !trimmedLine.startsWith('#')) {
+                        // 这是开始语句，当前行不缩进，但下一行会缩进
+                        lineIndentLevel = currentIndentLevel;
+                        currentIndentLevel += 1;
+                    }
+                    else if (trimmedLine.startsWith('else:') || trimmedLine.startsWith('elif ')) {
+                        // else/elif 语句与对应的 if 语句同级
+                        lineIndentLevel = currentIndentLevel;
                     }
                     else if (trimmedLine.startsWith('return ') || trimmedLine.startsWith('print ') ||
-                        trimmedLine.startsWith('break') || trimmedLine.startsWith('continue')) {
-                        indentLevel = 1;
+                        trimmedLine.startsWith('break') || trimmedLine.startsWith('continue') ||
+                        trimmedLine.startsWith('import ') || trimmedLine.startsWith('use ')) {
+                        // 这些语句在函数/类内部，需要缩进
+                        lineIndentLevel = currentIndentLevel;
                     }
-                    const newIndent = '    '.repeat(indentLevel);
+                    else if (trimmedLine.startsWith('fn ') || trimmedLine.startsWith('class ')) {
+                        // 函数和类定义在顶层
+                        currentIndentLevel = 0;
+                        lineIndentLevel = 0;
+                    }
+                    else if (trimmedLine.startsWith('if ') || trimmedLine.startsWith('while ') ||
+                        trimmedLine.startsWith('for ')) {
+                        // 控制语句在顶层
+                        lineIndentLevel = currentIndentLevel;
+                    }
+                    else {
+                        // 其他语句（变量赋值等）
+                        lineIndentLevel = currentIndentLevel;
+                    }
+                    const newIndent = '    '.repeat(lineIndentLevel);
                     const newLine = newIndent + trimmedLine;
                     if (newLine !== line) {
                         const range = new vscode.Range(i, 0, i, line.length);
                         edits.push(vscode.TextEdit.replace(range, newLine));
                     }
+                }
+                else {
+                    // 空行，重置缩进
+                    currentIndentLevel = 0;
                 }
             }
             return edits;
@@ -333,8 +361,134 @@ function activate(context) {
             return snippets;
         }
     }, 'f', 'c', 'i', 'w');
+    // 注册缺失的命令实现
+    const formatCodeCommand = vscode.commands.registerCommand('gamelang.formatCode', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            vscode.commands.executeCommand('editor.action.formatDocument');
+            vscode.window.showInformationMessage('GameLang代码格式化完成');
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const lintCodeCommand = vscode.commands.registerCommand('gamelang.lintCode', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            updateDiagnostics(editor.document);
+            vscode.window.showInformationMessage('GameLang代码检查完成');
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const runFileCommand = vscode.commands.registerCommand('gamelang.runFile', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            vscode.window.showInformationMessage('GameLang文件运行功能开发中...');
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const aiGenerateCommand = vscode.commands.registerCommand('gamelang.aiGenerate', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            vscode.window.showInformationMessage('GameLang AI代码生成功能开发中...');
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const aiExplainCommand = vscode.commands.registerCommand('gamelang.aiExplain', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            const selection = editor.selection;
+            if (!selection.isEmpty) {
+                vscode.window.showInformationMessage('GameLang AI代码解释功能开发中...');
+            }
+            else {
+                vscode.window.showWarningMessage('请先选择要解释的代码');
+            }
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const aiOptimizeCommand = vscode.commands.registerCommand('gamelang.aiOptimize', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            const selection = editor.selection;
+            if (!selection.isEmpty) {
+                vscode.window.showInformationMessage('GameLang AI代码优化功能开发中...');
+            }
+            else {
+                vscode.window.showWarningMessage('请先选择要优化的代码');
+            }
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const aiRefactorCommand = vscode.commands.registerCommand('gamelang.aiRefactor', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            const selection = editor.selection;
+            if (!selection.isEmpty) {
+                vscode.window.showInformationMessage('GameLang AI代码重构功能开发中...');
+            }
+            else {
+                vscode.window.showWarningMessage('请先选择要重构的代码');
+            }
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const startDebugCommand = vscode.commands.registerCommand('gamelang.startDebug', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            vscode.debug.startDebugging(undefined, {
+                name: 'Launch GameLang File',
+                type: 'gamelang',
+                request: 'launch',
+                program: editor.document.fileName,
+                console: 'integratedTerminal'
+            });
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const toggleBreakpointCommand = vscode.commands.registerCommand('gamelang.toggleBreakpoint', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            vscode.commands.executeCommand('editor.debug.action.toggleBreakpoint');
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const showVariablesCommand = vscode.commands.registerCommand('gamelang.showVariables', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            vscode.window.showInformationMessage('GameLang变量查看功能开发中...');
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
+    const debugConsoleCommand = vscode.commands.registerCommand('gamelang.debugConsole', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            vscode.commands.executeCommand('workbench.debug.action.toggleRepl');
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        }
+    });
     // 注册所有提供者
-    context.subscriptions.push(searchCommand, debugProvider, debugAdapterFactory, completionProvider, hoverProvider, formattingProvider, diagnosticCollection, changeDocumentListener, openDocumentListener, snippetProvider);
+    context.subscriptions.push(searchCommand, formatCodeCommand, lintCodeCommand, runFileCommand, aiGenerateCommand, aiExplainCommand, aiOptimizeCommand, aiRefactorCommand, startDebugCommand, toggleBreakpointCommand, showVariablesCommand, debugConsoleCommand, debugProvider, debugAdapterFactory, completionProvider, hoverProvider, formattingProvider, diagnosticCollection, changeDocumentListener, openDocumentListener, snippetProvider);
 }
 exports.activate = activate;
 function deactivate() { }
