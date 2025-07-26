@@ -106,15 +106,47 @@ export function activate(context: vscode.ExtensionContext) {
     let searchCommand = vscode.commands.registerCommand('gamelang.searchBuiltin', async () => {
         const searchTerm = await vscode.window.showInputBox({
             prompt: '请输入要搜索的GameLang内置函数',
-            placeHolder: '例如: print, input, len...'
+            placeHolder: '例如: print, input, len, 随机, 打印...'
         });
 
         if (searchTerm) {
             try {
-                // 搜索匹配的函数
-                const matches = Object.keys(builtinFunctions).filter(func => 
-                    func.toLowerCase().includes(searchTerm.toLowerCase())
-                );
+                // 搜索匹配的函数（支持中英文）
+                const matches = Object.keys(builtinFunctions).filter(func => {
+                    const funcInfo = builtinFunctions[func as keyof typeof builtinFunctions];
+                    const searchLower = searchTerm.toLowerCase();
+                    
+                    // 检查函数名
+                    if (func.toLowerCase().includes(searchLower)) return true;
+                    
+                    // 检查中文描述
+                    if (funcInfo.description.toLowerCase().includes(searchLower)) return true;
+                    
+                    // 检查中文关键词映射
+                    const chineseKeywords: { [key: string]: string[] } = {
+                        'print': ['打印', '输出', '显示'],
+                        'input': ['输入', '获取', '读取'],
+                        'len': ['长度', '大小', '数量'],
+                        'type': ['类型', '种类'],
+                        'str': ['字符串', '文本'],
+                        'int': ['整数', '数字'],
+                        'float': ['浮点', '小数'],
+                        'bool': ['布尔', '真假'],
+                        'abs': ['绝对值', '绝对'],
+                        'max': ['最大', '最大值'],
+                        'min': ['最小', '最小值'],
+                        'round': ['四舍五入', '取整'],
+                        'random': ['随机', '随机数'],
+                        'randint': ['随机整数', '随机数'],
+                        'now': ['时间', '当前时间', '现在'],
+                        'sleep': ['暂停', '等待', '延时'],
+                        'search_builtin': ['搜索', '查找', '内置函数'],
+                        'ai_ask': ['AI', '人工智能', '问答']
+                    };
+                    
+                    const keywords = chineseKeywords[func] || [];
+                    return keywords.some(keyword => keyword.includes(searchLower));
+                });
 
                 if (matches.length > 0) {
                     // 创建输出面板
