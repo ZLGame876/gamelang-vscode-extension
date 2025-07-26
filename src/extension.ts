@@ -7,6 +7,18 @@ export function activate(context: vscode.ExtensionContext) {
     
     // 显示激活消息
     vscode.window.showInformationMessage('GameLang扩展已激活！搜索功能快捷键：Cmd+U');
+    
+    // 验证语言支持
+    vscode.languages.getLanguages().then(languages => {
+        console.log('Available languages:', languages);
+        
+        if (languages.includes('gamelang')) {
+            console.log('GameLang language is properly registered');
+        } else {
+            console.error('GameLang language is NOT registered!');
+            vscode.window.showErrorMessage('GameLang语言注册失败！');
+        }
+    });
 
     // 内置函数数据库（支持中英文）
     const builtinFunctions = {

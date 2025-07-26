@@ -2,7 +2,7 @@
   "name": "gamelang",
   "displayName": "GameLang - Game Programming Language",
   "description": "Complete support for GameLang programming language with syntax highlighting, IntelliSense, debugging, and AI integration",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "gamelang-team",
   "engines": {
     "vscode": "^1.60.0"
@@ -38,10 +38,7 @@
   },
   "license": "MIT",
   "activationEvents": [
-    "onLanguage:gamelang",
-    "onCommand:gamelang.searchBuiltin",
-    "onCommand:gamelang.formatCode",
-    "onCommand:gamelang.lintCode"
+    "*"
   ],
   "main": "./out/extension.js",
   "contributes": {
