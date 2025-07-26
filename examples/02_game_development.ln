@@ -1,0 +1,104 @@
+# GameLang 游戏开发示例
+# 这个文件展示了如何使用GameLang进行游戏开发
+
+# 游戏状态变量
+player = {
+    "name": "英雄",
+    "hp": 100,
+    "level": 1,
+    "exp": 0,
+    "inventory": []
+}
+
+gameState = {
+    "isRunning": true,
+    "currentLevel": 1,
+    "score": 0
+}
+
+# 游戏初始化函数
+fn initGame():
+    print("=== 游戏开始 ===")
+    print("玩家:", player.name)
+    print("生命值:", player.hp)
+    print("等级:", player.level)
+    print("经验值:", player.exp)
+
+# 玩家移动函数
+fn movePlayer(direction):
+    print("玩家向", direction, "移动")
+    player.exp = player.exp + 10
+    checkLevelUp()
+
+# 等级提升检查
+fn checkLevelUp():
+    if player.exp >= player.level * 100:
+        player.level = player.level + 1
+        player.hp = player.hp + 20
+        print("🎉 等级提升！当前等级:", player.level)
+        print("生命值增加到:", player.hp)
+
+# 战斗系统
+fn battle(enemyName, enemyHp):
+    print("⚔️ 与", enemyName, "战斗开始！")
+    print("敌人生命值:", enemyHp)
+    
+    while enemyHp > 0 and player.hp > 0:
+        # 玩家攻击
+        damage = player.level * 10
+        enemyHp = enemyHp - damage
+        print("玩家造成", damage, "点伤害")
+        
+        if enemyHp <= 0:
+            print("🎯 击败了", enemyName, "！")
+            player.exp = player.exp + 50
+            gameState.score = gameState.score + 100
+            break
+        
+        # 敌人反击
+        enemyDamage = 15
+        player.hp = player.hp - enemyDamage
+        print("受到", enemyDamage, "点伤害，剩余生命值:", player.hp)
+        
+        if player.hp <= 0:
+            print("💀 游戏结束！")
+            gameState.isRunning = false
+            break
+
+# 物品系统
+fn addItem(itemName):
+    player.inventory.append(itemName)
+    print("获得物品:", itemName)
+    print("背包内容:", player.inventory)
+
+# 游戏主循环
+fn gameLoop():
+    initGame()
+    
+    while gameState.isRunning:
+        print("\n=== 游戏菜单 ===")
+        print("1. 移动")
+        print("2. 战斗")
+        print("3. 查看状态")
+        print("4. 退出游戏")
+        
+        # 这里可以添加用户输入逻辑
+        # 现在使用模拟输入
+        choice = 1  # 模拟选择移动
+        
+        if choice == 1:
+            movePlayer("北方")
+        elif choice == 2:
+            battle("小怪物", 50)
+        elif choice == 3:
+            print("玩家状态:", player)
+            print("游戏状态:", gameState)
+        elif choice == 4:
+            print("游戏结束，最终得分:", gameState.score)
+            gameState.isRunning = false
+
+# 启动游戏
+gameLoop()
+
+# AI辅助游戏设计
+ai_ask("如何设计一个有趣的RPG游戏战斗系统？")

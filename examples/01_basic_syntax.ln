@@ -1,0 +1,53 @@
+# GameLang 基础语法示例
+# 这个文件展示了GameLang的基本语法特性
+
+# 变量声明和使用（不需要var关键字）
+name = "GameLang"
+version = 1.0
+isAwesome = true
+
+# 打印输出
+print("欢迎使用", name, "版本", version)
+print("这是一个", isAwesome, "的编程语言")
+
+# 条件语句
+if version > 0.5:
+    print("版本号大于0.5")
+else:
+    print("版本号小于等于0.5")
+
+# 循环语句
+count = 0
+while count < 5:
+    print("计数:", count)
+    count = count + 1
+
+# 函数定义和调用
+fn greet(name):
+    print("你好,", name, "!")
+
+greet("开发者")
+
+# 函数返回值
+fn add(a, b):
+    return a + b
+
+result = add(10, 20)
+print("10 + 20 =", result)
+
+# 数组操作
+fruits = ["苹果", "香蕉", "橙子"]
+print("水果列表:", fruits)
+
+# 字典操作
+person = {"name": "张三", "age": 25}
+print("个人信息:", person)
+
+# 内置函数搜索
+search_builtin("print")
+search_builtin("len")
+
+# AI集成示例
+ai_ask("什么是GameLang编程语言？")
+
+print("基础语法示例完成！")

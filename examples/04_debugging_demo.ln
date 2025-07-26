@@ -1,0 +1,165 @@
+# GameLang 调试功能演示
+# 这个文件展示了如何使用GameLang的调试功能
+
+# 设置断点的函数
+fn debugFunction():
+    x = 10
+    y = 20
+    
+    # 这里可以设置断点
+    result = x + y
+    
+    print("计算结果:", result)
+    
+    # 另一个断点位置
+    if result > 25:
+        print("结果大于25")
+    else:
+        print("结果小于等于25")
+    
+    return result
+
+# 递归函数调试示例
+fn factorial(n):
+    if n <= 1:
+        return 1
+    else:
+        # 这里可以设置断点观察递归过程
+        return n * factorial(n - 1)
+
+# 数组处理调试示例
+fn processArray(arr):
+    sum = 0
+    count = 0
+    
+    # 遍历数组，可以设置断点观察每个元素
+    while count < len(arr):
+        current = arr[count]
+        sum = sum + current
+        count = count + 1
+        print("处理元素:", current, "当前总和:", sum)
+    
+    return sum
+
+# 错误处理调试示例
+fn errorHandlingDemo():
+    numbers = [1, 2, 3, 4, 5]
+    index = 0
+    
+    # 故意访问越界索引来演示错误
+    while index <= 10:
+        try:
+            value = numbers[index]
+            print("索引", index, "的值:", value)
+        except:
+            print("错误：索引", index, "超出范围")
+        index = index + 1
+
+# 变量监视示例
+fn variableWatchDemo():
+    counter = 0
+    threshold = 5
+    
+    while counter < 10:
+        # 可以监视 counter 和 threshold 变量
+        if counter >= threshold:
+            print("计数器达到阈值:", threshold)
+            threshold = threshold + 2
+        
+        counter = counter + 1
+        print("当前计数器:", counter)
+
+# 函数调用栈示例
+fn level3():
+    print("Level 3: 最深层函数")
+    # 这里可以查看调用栈
+
+fn level2():
+    print("Level 2: 中间层函数")
+    level3()
+
+fn level1():
+    print("Level 1: 顶层函数")
+    level2()
+
+# 性能调试示例
+fn performanceDemo():
+    startTime = time()
+    largeArray = []
+    
+    # 创建大数组
+    i = 0
+    while i < 1000:
+        largeArray.append(i)
+        i = i + 1
+    
+    # 处理数组
+    sum = 0
+    i = 0
+    while i < len(largeArray):
+        sum = sum + largeArray[i]
+        i = i + 1
+    
+    endTime = time()
+    duration = endTime - startTime
+    
+    print("处理1000个元素耗时:", duration, "秒")
+    print("总和:", sum)
+
+# 条件断点示例
+fn conditionalBreakpointDemo():
+    values = [1, 5, 10, 15, 20, 25, 30]
+    target = 15
+    
+    i = 0
+    while i < len(values):
+        current = values[i]
+        
+        # 可以设置条件断点：当 current == target 时停止
+        if current == target:
+            print("找到目标值:", target, "在索引:", i)
+        
+        i = i + 1
+
+# 主调试演示函数
+fn mainDebugDemo():
+    print("=== GameLang 调试功能演示 ===")
+    
+    print("\n1. 基础函数调试:")
+    debugFunction()
+    
+    print("\n2. 递归函数调试:")
+    factResult = factorial(5)
+    print("5的阶乘:", factResult)
+    
+    print("\n3. 数组处理调试:")
+    testArray = [1, 2, 3, 4, 5]
+    arraySum = processArray(testArray)
+    print("数组总和:", arraySum)
+    
+    print("\n4. 错误处理调试:")
+    errorHandlingDemo()
+    
+    print("\n5. 变量监视:")
+    variableWatchDemo()
+    
+    print("\n6. 函数调用栈:")
+    level1()
+    
+    print("\n7. 性能调试:")
+    performanceDemo()
+    
+    print("\n8. 条件断点:")
+    conditionalBreakpointDemo()
+    
+    print("\n调试演示完成！")
+
+# 启动调试演示
+mainDebugDemo()
+
+# 搜索内置函数
+search_builtin("print")
+search_builtin("len")
+search_builtin("time")
+
+print("所有调试示例运行完毕！")

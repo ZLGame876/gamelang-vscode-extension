@@ -1,0 +1,51 @@
+# GameLang Hello World 示例
+# 这是一个简单的GameLang程序示例
+
+# 打印欢迎信息
+print("欢迎使用GameLang编程语言！")
+
+# 变量声明和使用
+var name = "开发者"
+var version = "1.0.0"
+
+# 字符串拼接和输出
+print("你好,", name, "!")
+print("当前GameLang版本:", version)
+
+# 简单的数学运算
+var a = 10
+var b = 20
+var sum = a + b
+
+print("计算结果:", a, "+", b, "=", sum)
+
+# 条件语句
+if sum > 25:
+    print("总和大于25")
+else:
+    print("总和小于等于25")
+
+# 循环示例
+print("计数到5:")
+var i = 1
+while i <= 5:
+    print("数字:", i)
+    i = i + 1
+
+# 函数定义和调用
+fn greet(person):
+    print("你好,", person, "! 欢迎学习GameLang!")
+
+greet("新朋友")
+
+# 数组操作
+var fruits = ["苹果", "香蕉", "橙子"]
+print("水果列表:", fruits)
+
+# 内置函数搜索
+search_builtin("print")
+
+# AI集成示例
+ai_ask("请介绍一下GameLang编程语言的特点")
+
+print("示例程序运行完成！")
