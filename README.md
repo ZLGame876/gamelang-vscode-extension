@@ -53,8 +53,8 @@ GameLang是一个专为游戏开发设计的编程语言，这个VS Code扩展�
 print("Hello, GameLang!")
 
 // 变量定义
-var name = "GameLang"
-var version = 1.0
+name = "GameLang"
+version = 1.0
 
 // 函数定义
 fn greet(name) {
@@ -83,9 +83,9 @@ ai_ask("什么是GameLang?")
 ### 基础语法
 ```gamelang
 // 变量声明
-var name = "GameLang"
-var age = 18
-var isActive = true
+name = "GameLang"
+age = 18
+isActive = true
 
 // 函数定义
 fn calculate(a, b) {
@@ -121,20 +121,20 @@ class Player {
 ```gamelang
 // 基础函数
 print("Hello World")           // 打印输出
-var input = input("请输入: ")  // 获取输入
-var length = len([1, 2, 3])    // 获取长度
+input = input("请输入: ")  // 获取输入
+length = len([1, 2, 3])    // 获取长度
 
 // 数学函数
-var abs = abs(-5)              // 绝对值
-var max = max(1, 2, 3)         // 最大值
-var min = min(1, 2, 3)         // 最小值
+abs = abs(-5)              // 绝对值
+max = max(1, 2, 3)         // 最大值
+min = min(1, 2, 3)         // 最小值
 
 // 随机数
-var random = random()          // 0-1随机数
-var randint = randint(1, 10)   // 1-10随机整数
+random = random()          // 0-1随机数
+randint = randint(1, 10)   // 1-10随机整数
 
 // 时间函数
-var now = now()                // 当前时间
+now = now()                // 当前时间
 sleep(1)                       // 暂停1秒
 
 // 搜索函数
