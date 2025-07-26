@@ -1,0 +1,40 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2C3E50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34495E;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E74C3C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C0392B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buttonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F1C40F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F39C12;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="128" height="128" rx="20" fill="url(#bgGradient)"/>
+  
+  <!-- 游戏控制器主体 -->
+  <rect x="32" y="40" width="64" height="48" rx="8" fill="url(#accentGradient)"/>
+  
+  <!-- 左侧按钮 -->
+  <circle cx="44" cy="52" r="4" fill="url(#buttonGradient)"/>
+  <circle cx="44" cy="76" r="4" fill="url(#buttonGradient)"/>
+  
+  <!-- 右侧按钮 -->
+  <circle cx="84" cy="52" r="4" fill="url(#buttonGradient)"/>
+  <circle cx="84" cy="76" r="4" fill="url(#buttonGradient)"/>
+  
+  <!-- 十字键 -->
+  <rect x="60" y="60" width="8" height="8" rx="1" fill="url(#buttonGradient)"/>
+  <rect x="62" y="58" width="4" height="4" rx="1" fill="url(#buttonGradient)"/>
+  <rect x="62" y="66" width="4" height="4" rx="1" fill="url(#buttonGradient)"/>
+  <rect x="58" y="62" width="4" height="4" rx="1" fill="url(#buttonGradient)"/>
+  <rect x="66" y="62" width="4" height="4" rx="1" fill="url(#buttonGradient)"/>
+  
+  <!-- 装饰性元素 -->
+  <circle cx="64" cy="64" r="2" fill="#FFFFFF" opacity="0.3"/>
+</svg> 

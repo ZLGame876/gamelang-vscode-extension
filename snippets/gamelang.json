@@ -1,0 +1,211 @@
+{
+  "Print Statement": {
+    "prefix": "print",
+    "body": [
+      "print($1)"
+    ],
+    "description": "Print statement"
+  },
+  "Function Definition": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:functionName}(${2:parameters}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Function definition"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": [
+      "if (${1:condition}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "If statement"
+  },
+  "If-Else Statement": {
+    "prefix": "ifelse",
+    "body": [
+      "if (${1:condition}) {",
+      "\t$2",
+      "} else {",
+      "\t$0",
+      "}"
+    ],
+    "description": "If-else statement"
+  },
+  "While Loop": {
+    "prefix": "while",
+    "body": [
+      "while (${1:condition}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "While loop"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "for (${1:variable} in ${2:range}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "For loop"
+  },
+  "Class Definition": {
+    "prefix": "class",
+    "body": [
+      "class ${1:ClassName} {",
+      "\tfn __init__(${2:parameters}) {",
+      "\t\t$3",
+      "\t}",
+      "\t$0",
+      "}"
+    ],
+    "description": "Class definition"
+  },
+  "File Operations": {
+    "prefix": "file",
+    "body": [
+      "file = open(\"${1:filename}\", \"${2:r}\")",
+      "content = read(file)",
+      "close(file)"
+    ],
+    "description": "File operations"
+  },
+  "List Operations": {
+    "prefix": "list",
+    "body": [
+      "list = [${1:items}]",
+      "append(list, ${2:item})",
+      "item = pop(list, ${3:index})"
+    ],
+    "description": "List operations"
+  },
+  "Dictionary Operations": {
+    "prefix": "dict",
+    "body": [
+      "dict = {${1:key}: ${2:value}}",
+      "value = get(dict, \"${3:key}\", ${4:default})",
+      "keys_list = keys(dict)"
+    ],
+    "description": "Dictionary operations"
+  },
+  "Random Number": {
+    "prefix": "random",
+    "body": [
+      "random_value = random()",
+      "random_int = randint(${1:min}, ${2:max})"
+    ],
+    "description": "Random number generation"
+  },
+  "AI Integration": {
+    "prefix": "ai",
+    "body": [
+      "response = ai_对话(\"${1:message}\")",
+      "code = ai_代码生成(\"${2:requirement}\")",
+      "explanation = ai_代码解释(${3:code})"
+    ],
+    "description": "AI integration functions"
+  },
+  "Error Handling": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "\t${1:code}",
+      "} catch (${2:error}) {",
+      "\t${3:handle_error}",
+      "}"
+    ],
+    "description": "Error handling with try-catch"
+  },
+  "Main Function": {
+    "prefix": "main",
+    "body": [
+      "fn main() {",
+      "\t${1:// Main code here}",
+      "\t$0",
+      "}",
+      "",
+      "main()"
+    ],
+    "description": "Main function with call"
+  },
+  "Import Statement": {
+    "prefix": "import",
+    "body": [
+      "import ${1:module}"
+    ],
+    "description": "Import statement"
+  },
+  "Use Statement": {
+    "prefix": "use",
+    "body": [
+      "use ${1:module}"
+    ],
+    "description": "Use statement"
+  },
+  "Return Statement": {
+    "prefix": "return",
+    "body": [
+      "return ${1:value}"
+    ],
+    "description": "Return statement"
+  },
+  "Variable Assignment": {
+    "prefix": "var",
+    "body": [
+      "${1:variable} = ${2:value}"
+    ],
+    "description": "Variable assignment"
+  },
+  "Comment Block": {
+    "prefix": "comment",
+    "body": [
+      "# ${1:Comment text}",
+      "$0"
+    ],
+    "description": "Comment block"
+  },
+  "Search Builtin": {
+    "prefix": "search",
+    "body": [
+      "search_builtin(\"${1:keyword}\")"
+    ],
+    "description": "Search builtin functions"
+  },
+  "Sleep": {
+    "prefix": "sleep",
+    "body": [
+      "sleep(${1:seconds})"
+    ],
+    "description": "Sleep for specified seconds"
+  },
+  "System Command": {
+    "prefix": "system",
+    "body": [
+      "result = system(\"${1:command}\")"
+    ],
+    "description": "Execute system command"
+  },
+  "File Check": {
+    "prefix": "exists",
+    "body": [
+      "if (exists(\"${1:filename}\")) {",
+      "\t${2:// File exists}",
+      "\t$0",
+      "}"
+    ],
+    "description": "Check if file exists"
+  },
+  "Directory Operations": {
+    "prefix": "dir",
+    "body": [
+      "files = listdir(\"${1:directory}\")",
+      "mkdir(\"${2:new_directory}\")",
+      "rmdir(\"${3:directory_to_remove}\")"
+    ],
+    "description": "Directory operations"
+  }
+} 

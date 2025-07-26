@@ -1,0 +1,19 @@
+{
+  "iconDefinitions": {
+    "_file": {
+      "iconPath": "./images/icon.png"
+    },
+    "_file_light": {
+      "iconPath": "./images/icon.png"
+    }
+  },
+  "fileExtensions": {
+    "ln": "_file"
+  },
+  "fileNames": {
+    "*.ln": "_file"
+  },
+  "languageIds": {
+    "gamelang": "_file"
+  }
+} 

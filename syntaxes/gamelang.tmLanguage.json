@@ -1,0 +1,108 @@
+{
+  "name": "GameLang",
+  "scopeName": "source.gamelang",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#variables"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.gamelang",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.gamelang",
+          "match": "\\b(if|else|elif|while|for|in|break|continue|return|pass|fn|class)\\b"
+        },
+        {
+          "name": "keyword.operator.gamelang",
+          "match": "\\b(and|or|not)\\b"
+        },
+        {
+          "name": "constant.language.gamelang",
+          "match": "\\b(true|false|null)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.gamelang",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.gamelang",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.gamelang",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.gamelang",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.gamelang",
+          "match": "\\b\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.float.gamelang",
+          "match": "\\b\\d+\\.\\d+\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.gamelang",
+          "match": "\\b(print|input|len|type|str|int|float|bool|abs|max|min|round|floor|ceil|random|randint|now|sleep|append|pop|get|keys|values|items|open|remove|rename|exists|size|listdir|mkdir|rmdir|getcwd|chdir|system|platform|getenv|search_builtin|ai_对话|ai_设置配置|ai_获取配置|ai_测试连接|ai_智能助手|ai_批量对话|ai_多轮对话|ai_多轮助手|ai_代码生成|ai_代码解释|ai_代码优化|ai_代码重构)\\b"
+        },
+        {
+          "name": "entity.name.function.gamelang",
+          "match": "\\b\\w+(?=\\()"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.gamelang",
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+} 
