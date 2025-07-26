@@ -456,6 +456,301 @@ function activate(context) {
             example: '文件.关闭()',
             keywords: ['关闭', 'close'],
             chineseName: '关闭'
+        },
+        // 新增实用函数
+        'add': {
+            description: '添加元素到列表',
+            syntax: 'add(列表, 元素)',
+            example: 'add(my_list, "new_item")',
+            keywords: ['添加', '增加', 'add'],
+            chineseName: '添加'
+        },
+        '添加': {
+            description: '添加元素到列表',
+            syntax: '添加(列表, 元素)',
+            example: '添加(我的列表, "新项目")',
+            keywords: ['添加', '增加', 'add'],
+            chineseName: '添加'
+        },
+        'remove': {
+            description: '从列表中移除元素',
+            syntax: 'remove(列表, 元素)',
+            example: 'remove(my_list, "item")',
+            keywords: ['移除', '删除', 'remove'],
+            chineseName: '移除'
+        },
+        '移除': {
+            description: '从列表中移除元素',
+            syntax: '移除(列表, 元素)',
+            example: '移除(我的列表, "项目")',
+            keywords: ['移除', '删除', 'remove'],
+            chineseName: '移除'
+        },
+        'update': {
+            description: '更新字典中的值',
+            syntax: 'update(字典, 键, 值)',
+            example: 'update(my_dict, "key", "new_value")',
+            keywords: ['更新', '修改', 'update'],
+            chineseName: '更新'
+        },
+        '更新': {
+            description: '更新字典中的值',
+            syntax: '更新(字典, 键, 值)',
+            example: '更新(我的字典, "键", "新值")',
+            keywords: ['更新', '修改', 'update'],
+            chineseName: '更新'
+        },
+        'create': {
+            description: '创建新对象',
+            syntax: 'create(类型, 参数)',
+            example: 'create("list", [1, 2, 3])',
+            keywords: ['创建', '建立', 'create'],
+            chineseName: '创建'
+        },
+        '创建': {
+            description: '创建新对象',
+            syntax: '创建(类型, 参数)',
+            example: '创建("列表", [1, 2, 3])',
+            keywords: ['创建', '建立', 'create'],
+            chineseName: '创建'
+        },
+        'delete': {
+            description: '删除文件或对象',
+            syntax: 'delete(路径或对象)',
+            example: 'delete("file.txt")',
+            keywords: ['删除', 'del', 'delete'],
+            chineseName: '删除'
+        },
+        '删除': {
+            description: '删除文件或对象',
+            syntax: '删除(路径或对象)',
+            example: '删除("文件.txt")',
+            keywords: ['删除', 'del', 'delete'],
+            chineseName: '删除'
+        },
+        'copy': {
+            description: '复制文件或对象',
+            syntax: 'copy(源, 目标)',
+            example: 'copy("source.txt", "dest.txt")',
+            keywords: ['复制', '拷贝', 'copy'],
+            chineseName: '复制'
+        },
+        '复制': {
+            description: '复制文件或对象',
+            syntax: '复制(源, 目标)',
+            example: '复制("源文件.txt", "目标文件.txt")',
+            keywords: ['复制', '拷贝', 'copy'],
+            chineseName: '复制'
+        },
+        'move': {
+            description: '移动文件或对象',
+            syntax: 'move(源, 目标)',
+            example: 'move("old.txt", "new.txt")',
+            keywords: ['移动', 'move'],
+            chineseName: '移动'
+        },
+        '移动': {
+            description: '移动文件或对象',
+            syntax: '移动(源, 目标)',
+            example: '移动("旧文件.txt", "新文件.txt")',
+            keywords: ['移动', 'move'],
+            chineseName: '移动'
+        },
+        'find': {
+            description: '查找元素',
+            syntax: 'find(列表, 条件)',
+            example: 'find(my_list, lambda x: x > 5)',
+            keywords: ['查找', '寻找', 'find'],
+            chineseName: '查找'
+        },
+        '查找': {
+            description: '查找元素',
+            syntax: '查找(列表, 条件)',
+            example: '查找(我的列表, lambda x: x > 5)',
+            keywords: ['查找', '寻找', 'find'],
+            chineseName: '查找'
+        },
+        'replace': {
+            description: '替换字符串中的内容',
+            syntax: 'replace(字符串, 旧值, 新值)',
+            example: 'replace("Hello World", "World", "GameLang")',
+            keywords: ['替换', 'replace'],
+            chineseName: '替换'
+        },
+        '替换': {
+            description: '替换字符串中的内容',
+            syntax: '替换(字符串, 旧值, 新值)',
+            example: '替换("你好世界", "世界", "GameLang")',
+            keywords: ['替换', 'replace'],
+            chineseName: '替换'
+        },
+        'split': {
+            description: '分割字符串',
+            syntax: 'split(字符串, 分隔符)',
+            example: 'split("a,b,c", ",")',
+            keywords: ['分割', 'split'],
+            chineseName: '分割'
+        },
+        '分割': {
+            description: '分割字符串',
+            syntax: '分割(字符串, 分隔符)',
+            example: '分割("a,b,c", ",")',
+            keywords: ['分割', 'split'],
+            chineseName: '分割'
+        },
+        'join': {
+            description: '连接字符串列表',
+            syntax: 'join(分隔符, 字符串列表)',
+            example: 'join(",", ["a", "b", "c"])',
+            keywords: ['连接', 'join'],
+            chineseName: '连接'
+        },
+        '连接': {
+            description: '连接字符串列表',
+            syntax: '连接(分隔符, 字符串列表)',
+            example: '连接(",", ["a", "b", "c"])',
+            keywords: ['连接', 'join'],
+            chineseName: '连接'
+        },
+        'filter': {
+            description: '过滤列表',
+            syntax: 'filter(列表, 条件)',
+            example: 'filter([1, 2, 3, 4, 5], lambda x: x > 2)',
+            keywords: ['过滤', 'filter'],
+            chineseName: '过滤'
+        },
+        '过滤': {
+            description: '过滤列表',
+            syntax: '过滤(列表, 条件)',
+            example: '过滤([1, 2, 3, 4, 5], lambda x: x > 2)',
+            keywords: ['过滤', 'filter'],
+            chineseName: '过滤'
+        },
+        'map': {
+            description: '映射函数到列表',
+            syntax: 'map(函数, 列表)',
+            example: 'map(lambda x: x * 2, [1, 2, 3])',
+            keywords: ['映射', 'map'],
+            chineseName: '映射'
+        },
+        '映射': {
+            description: '映射函数到列表',
+            syntax: '映射(函数, 列表)',
+            example: '映射(lambda x: x * 2, [1, 2, 3])',
+            keywords: ['映射', 'map'],
+            chineseName: '映射'
+        },
+        'reduce': {
+            description: '归约列表',
+            syntax: 'reduce(函数, 列表)',
+            example: 'reduce(lambda x, y: x + y, [1, 2, 3, 4])',
+            keywords: ['归约', 'reduce'],
+            chineseName: '归约'
+        },
+        '归约': {
+            description: '归约列表',
+            syntax: '归约(函数, 列表)',
+            example: '归约(lambda x, y: x + y, [1, 2, 3, 4])',
+            keywords: ['归约', 'reduce'],
+            chineseName: '归约'
+        },
+        'count': {
+            description: '计算元素出现次数',
+            syntax: 'count(列表, 元素)',
+            example: 'count([1, 2, 2, 3, 2], 2)',
+            keywords: ['计数', 'count'],
+            chineseName: '计数'
+        },
+        '计数': {
+            description: '计算元素出现次数',
+            syntax: '计数(列表, 元素)',
+            example: '计数([1, 2, 2, 3, 2], 2)',
+            keywords: ['计数', 'count'],
+            chineseName: '计数'
+        },
+        'index': {
+            description: '获取元素索引',
+            syntax: 'index(列表, 元素)',
+            example: 'index([1, 2, 3], 2)',
+            keywords: ['索引', 'index'],
+            chineseName: '索引'
+        },
+        '索引': {
+            description: '获取元素索引',
+            syntax: '索引(列表, 元素)',
+            example: '索引([1, 2, 3], 2)',
+            keywords: ['索引', 'index'],
+            chineseName: '索引'
+        },
+        'insert': {
+            description: '在指定位置插入元素',
+            syntax: 'insert(列表, 位置, 元素)',
+            example: 'insert(my_list, 1, "new_item")',
+            keywords: ['插入', 'insert'],
+            chineseName: '插入'
+        },
+        '插入': {
+            description: '在指定位置插入元素',
+            syntax: '插入(列表, 位置, 元素)',
+            example: '插入(我的列表, 1, "新项目")',
+            keywords: ['插入', 'insert'],
+            chineseName: '插入'
+        },
+        'pop': {
+            description: '移除并返回列表最后一个元素',
+            syntax: 'pop(列表)',
+            example: 'last_item = pop(my_list)',
+            keywords: ['弹出', 'pop'],
+            chineseName: '弹出'
+        },
+        '弹出': {
+            description: '移除并返回列表最后一个元素',
+            syntax: '弹出(列表)',
+            example: '最后项目 = 弹出(我的列表)',
+            keywords: ['弹出', 'pop'],
+            chineseName: '弹出'
+        },
+        'clear': {
+            description: '清空列表或字典',
+            syntax: 'clear(对象)',
+            example: 'clear(my_list)',
+            keywords: ['清空', 'clear'],
+            chineseName: '清空'
+        },
+        '清空': {
+            description: '清空列表或字典',
+            syntax: '清空(对象)',
+            example: '清空(我的列表)',
+            keywords: ['清空', 'clear'],
+            chineseName: '清空'
+        },
+        'exists': {
+            description: '检查文件或键是否存在',
+            syntax: 'exists(路径或键)',
+            example: 'exists("file.txt")',
+            keywords: ['存在', 'exists'],
+            chineseName: '存在'
+        },
+        '存在': {
+            description: '检查文件或键是否存在',
+            syntax: '存在(路径或键)',
+            example: '存在("文件.txt")',
+            keywords: ['存在', 'exists'],
+            chineseName: '存在'
+        },
+        'is_empty': {
+            description: '检查对象是否为空',
+            syntax: 'is_empty(对象)',
+            example: 'is_empty(my_list)',
+            keywords: ['为空', 'is_empty'],
+            chineseName: '为空'
+        },
+        '为空': {
+            description: '检查对象是否为空',
+            syntax: '为空(对象)',
+            example: '为空(我的列表)',
+            keywords: ['为空', 'is_empty'],
+            chineseName: '为空'
         }
     };
     // 注册搜索命令
