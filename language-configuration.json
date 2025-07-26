@@ -22,8 +22,8 @@
     ["'", "'"]
   ],
   "indentationRules": {
-    "increaseIndentPattern": ".*\\{[^}\"']*$",
-    "decreaseIndentPattern": "^\\s*\\}"
+    "increaseIndentPattern": ".*:\\s*$",
+    "decreaseIndentPattern": "^\\s*\\b(else|elif|except|finally)\\b"
   },
   "folding": {
     "markers": {

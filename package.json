@@ -30,11 +30,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gamelang/vscode-extension.git"
+    "url": "https://github.com/ZLGame876/gamelang-vscode-extension.git"
   },
-  "homepage": "https://github.com/gamelang/vscode-extension#readme",
+  "homepage": "https://github.com/ZLGame876/gamelang-vscode-extension#readme",
   "bugs": {
-    "url": "https://github.com/gamelang/vscode-extension/issues"
+    "url": "https://github.com/ZLGame876/gamelang-vscode-extension/issues"
   },
   "license": "MIT",
   "activationEvents": [
@@ -309,20 +309,7 @@
           "description": "OpenAI API Key for AI features"
         }
       }
-    },
-    "debuggers": [
-      {
-        "type": "gamelang",
-        "label": "GameLang",
-        "program": "./gamelang_mac",
-        "args": [],
-        "runtimeArgs": [],
-        "env": {},
-        "cwd": "${workspaceFolder}",
-        "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen"
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
