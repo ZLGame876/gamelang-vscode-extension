@@ -1,0 +1,41 @@
+# 测试GameLang双语法支持
+# 这个文件用于测试扩展是否正确识别.ln文件
+
+# 冒号语法测试
+fn test_colon_syntax():
+    print("冒号语法测试成功！")
+
+if True:
+    print("条件为真")
+else:
+    print("条件为假")
+
+# 大括号语法测试
+fn test_brace_syntax() {
+    print("大括号语法测试成功！");
+}
+
+if (True) {
+    print("条件为真");
+} else {
+    print("条件为假");
+}
+
+# 混合语法测试
+fn test_mixed_syntax(name) {
+    if name == "GameLang":
+        print("使用冒号语法");
+    else {
+        print("使用大括号语法");
+    }
+}
+
+# 中文关键字测试
+函数 中文测试():
+    print("中文冒号语法测试")
+
+函数 中文测试2() {
+    print("中文大括号语法测试");
+}
+
+print("GameLang双语法支持测试完成！") 

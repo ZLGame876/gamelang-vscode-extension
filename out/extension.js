@@ -3,8 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
 const debugger_1 = require("./debugger");
+const gamelang_interpreter_1 = require("./gamelang-interpreter");
 function activate(context) {
-    console.log('GameLang extension is now active!');
+    console.log('=== GameLang Extension Activation ===');
+    console.log('Extension ID:', context.extension.id);
+    console.log('Extension Path:', context.extension.extensionPath);
+    console.log('Extension Version:', context.extension.packageJSON.version);
     // 显示激活消息
     vscode.window.showInformationMessage('GameLang扩展已激活！搜索功能快捷键：Cmd+U');
     // 强制设置文件关联
@@ -27,6 +31,7 @@ function activate(context) {
     });
     // 监听文档打开事件，自动设置语言模式
     vscode.workspace.onDidOpenTextDocument((document) => {
+        console.log('Document opened:', document.fileName, 'Language:', document.languageId);
         if (document.fileName.endsWith('.ln')) {
             vscode.languages.setTextDocumentLanguage(document, 'gamelang').then(() => {
                 console.log('Language mode set to gamelang for:', document.fileName);
@@ -1079,10 +1084,18 @@ function activate(context) {
             vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
         }
     });
-    const runFileCommand = vscode.commands.registerCommand('gamelang.runFile', () => {
+    const runFileCommand = vscode.commands.registerCommand('gamelang.runFile', async () => {
         const editor = vscode.window.activeTextEditor;
         if (editor && editor.document.languageId === 'gamelang') {
-            vscode.window.showInformationMessage('GameLang文件运行功能开发中...');
+            try {
+                const code = editor.document.getText();
+                const interpreter = new gamelang_interpreter_1.GameLangInterpreter();
+                await interpreter.execute(code);
+                vscode.window.showInformationMessage('GameLang代码执行完成！');
+            }
+            catch (error) {
+                vscode.window.showErrorMessage(`运行错误: ${error}`);
+            }
         }
         else {
             vscode.window.showWarningMessage('请在GameLang文件中使用此命令');

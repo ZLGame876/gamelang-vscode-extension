@@ -1,0 +1,22 @@
+# GameLang 运行测试
+# 这个文件用于测试代码运行功能
+
+print("Hello GameLang!")
+print("这是一个运行测试")
+
+name = "GameLang"
+print("欢迎使用", name)
+
+# 测试数学函数
+result = abs(-10)
+print("绝对值:", result)
+
+# 测试随机函数
+random_num = random()
+print("随机数:", random_num)
+
+# 测试时间函数
+current_time = now()
+print("当前时间:", current_time)
+
+print("测试完成！") 
