@@ -19,6 +19,12 @@
     },
     {
       "include": "#variables"
+    },
+    {
+      "include": "#brackets"
+    },
+    {
+      "include": "#semicolons"
     }
   ],
   "repository": {
@@ -43,6 +49,42 @@
         {
           "name": "constant.language.gamelang",
           "match": "\\b(true|false|null)\\b"
+        }
+      ]
+    },
+    "brackets": {
+      "patterns": [
+        {
+          "name": "punctuation.definition.block.begin.gamelang",
+          "match": "\\{"
+        },
+        {
+          "name": "punctuation.definition.block.end.gamelang",
+          "match": "\\}"
+        },
+        {
+          "name": "punctuation.definition.parameters.begin.gamelang",
+          "match": "\\("
+        },
+        {
+          "name": "punctuation.definition.parameters.end.gamelang",
+          "match": "\\)"
+        },
+        {
+          "name": "punctuation.definition.array.begin.gamelang",
+          "match": "\\["
+        },
+        {
+          "name": "punctuation.definition.array.end.gamelang",
+          "match": "\\]"
+        }
+      ]
+    },
+    "semicolons": {
+      "patterns": [
+        {
+          "name": "punctuation.terminator.statement.gamelang",
+          "match": ";"
         }
       ]
     },

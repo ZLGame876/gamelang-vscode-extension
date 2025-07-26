@@ -1,0 +1,94 @@
+# GameLang 双语法支持示例
+# 这个文件展示了GameLang支持的两种语法：冒号语法和大括号语法
+
+# ========================================
+# 冒号语法 (Colon Syntax)
+# ========================================
+
+# 函数定义 - 冒号语法
+fn greet(name):
+    print("Hello, " + name)
+
+# 类定义 - 冒号语法
+class Player:
+    fn __init__(self, name):
+        self.name = name
+    
+    fn play():
+        print(self.name + " 开始游戏")
+
+# 条件语句 - 冒号语法
+if age >= 18:
+    print("成年人")
+else:
+    print("未成年人")
+
+# 循环语句 - 冒号语法
+while count < 10:
+    print("计数: " + count)
+    count = count + 1
+
+# ========================================
+# 大括号语法 (Brace Syntax)
+# ========================================
+
+# 函数定义 - 大括号语法
+fn calculate(a, b) {
+    return a + b;
+}
+
+# 类定义 - 大括号语法
+class GameCharacter {
+    fn __init__(self, name, health) {
+        self.name = name;
+        self.health = health;
+    }
+    
+    fn attack(target) {
+        print(self.name + " 攻击 " + target.name);
+    }
+}
+
+# 条件语句 - 大括号语法
+if (score >= 100) {
+    print("恭喜！你赢了！");
+} else {
+    print("继续努力！");
+}
+
+# 循环语句 - 大括号语法
+while (health > 0) {
+    print("生命值: " + health);
+    health = health - 1;
+}
+
+# ========================================
+# 混合语法 (Mixed Syntax)
+# ========================================
+
+# 可以在同一个文件中混合使用两种语法
+fn mixed_function(name) {
+    if name == "GameLang":
+        print("使用冒号语法");
+    else {
+        print("使用大括号语法");
+    }
+}
+
+# 中文关键字也支持双语法
+函数 中文函数(参数):
+    print("中文冒号语法")
+
+函数 中文函数2(参数) {
+    print("中文大括号语法");
+}
+
+# ========================================
+# 语法选择建议
+# ========================================
+
+# 1. 冒号语法 - 更简洁，适合快速开发
+# 2. 大括号语法 - 更传统，适合有经验的开发者
+# 3. 混合语法 - 灵活，但建议在项目中保持一致性
+
+# 选择你喜欢的语法风格，GameLang都支持！ 

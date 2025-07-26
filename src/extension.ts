@@ -8,15 +8,32 @@ export function activate(context: vscode.ExtensionContext) {
     // 显示激活消息
     vscode.window.showInformationMessage('GameLang扩展已激活！搜索功能快捷键：Cmd+U');
     
+    // 强制设置文件关联
+    vscode.workspace.getConfiguration('files').update('associations', {
+        '*.ln': 'gamelang'
+    }, vscode.ConfigurationTarget.Global).then(() => {
+        console.log('File association set successfully');
+    });
+    
     // 验证语言支持
     vscode.languages.getLanguages().then(languages => {
         console.log('Available languages:', languages);
         
         if (languages.includes('gamelang')) {
             console.log('GameLang language is properly registered');
+            vscode.window.showInformationMessage('GameLang语言已正确注册！');
         } else {
             console.error('GameLang language is NOT registered!');
             vscode.window.showErrorMessage('GameLang语言注册失败！');
+        }
+    });
+    
+    // 监听文档打开事件，自动设置语言模式
+    vscode.workspace.onDidOpenTextDocument((document) => {
+        if (document.fileName.endsWith('.ln')) {
+            vscode.languages.setTextDocumentLanguage(document, 'gamelang').then(() => {
+                console.log('Language mode set to gamelang for:', document.fileName);
+            });
         }
     });
 
@@ -1020,15 +1037,16 @@ export function activate(context: vscode.ExtensionContext) {
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             
-            // 检查语法错误
-            if (line.includes('){') || line.includes('}(')) {
-                const range = new vscode.Range(i, 0, i, line.length);
-                diagnostics.push(new vscode.Diagnostic(
-                    range,
-                    '语法错误：GameLang使用冒号(:)而不是大括号({})',
-                    vscode.DiagnosticSeverity.Error
-                ));
-            }
+            // 检查语法错误 - 支持双语法
+            // 不再报错，因为现在支持大括号语法
+            // if (line.includes('){') || line.includes('}(')) {
+            //     const range = new vscode.Range(i, 0, i, line.length);
+            //     diagnostics.push(new vscode.Diagnostic(
+            //         range,
+            //         '语法错误：GameLang使用冒号(:)而不是大括号({})',
+            //         vscode.DiagnosticSeverity.Error
+            //     ));
+            // }
             
             // 检查未闭合的字符串
             const quoteCount = (line.match(/"/g) || []).length;
@@ -1110,6 +1128,32 @@ export function activate(context: vscode.ExtensionContext) {
             forChineseSnippet.insertText = new vscode.SnippetString('循环 ${1:变量} 在 ${2:可迭代对象}:\n\t${3:# 循环体}');
             forChineseSnippet.documentation = new vscode.MarkdownString('创建for循环 (中文)');
             snippets.push(forChineseSnippet);
+
+            // 大括号语法代码片段
+            const fnBraceSnippet = new vscode.CompletionItem('fn{}', vscode.CompletionItemKind.Snippet);
+            fnBraceSnippet.insertText = new vscode.SnippetString('fn ${1:函数名}(${2:参数}) {\n\t${3:// 函数体}\n}');
+            fnBraceSnippet.documentation = new vscode.MarkdownString('创建函数定义 (大括号语法)');
+            snippets.push(fnBraceSnippet);
+
+            const classBraceSnippet = new vscode.CompletionItem('class{}', vscode.CompletionItemKind.Snippet);
+            classBraceSnippet.insertText = new vscode.SnippetString('class ${1:类名} {\n\t${2:// 类属性}\n}');
+            classBraceSnippet.documentation = new vscode.MarkdownString('创建类定义 (大括号语法)');
+            snippets.push(classBraceSnippet);
+
+            const ifBraceSnippet = new vscode.CompletionItem('if{}', vscode.CompletionItemKind.Snippet);
+            ifBraceSnippet.insertText = new vscode.SnippetString('if (${1:条件}) {\n\t${2:// 代码块}\n}');
+            ifBraceSnippet.documentation = new vscode.MarkdownString('创建if条件语句 (大括号语法)');
+            snippets.push(ifBraceSnippet);
+
+            const whileBraceSnippet = new vscode.CompletionItem('while{}', vscode.CompletionItemKind.Snippet);
+            whileBraceSnippet.insertText = new vscode.SnippetString('while (${1:条件}) {\n\t${2:// 循环体}\n}');
+            whileBraceSnippet.documentation = new vscode.MarkdownString('创建while循环 (大括号语法)');
+            snippets.push(whileBraceSnippet);
+
+            const forBraceSnippet = new vscode.CompletionItem('for{}', vscode.CompletionItemKind.Snippet);
+            forBraceSnippet.insertText = new vscode.SnippetString('for (${1:变量} in ${2:范围}) {\n\t${3:// 循环体}\n}');
+            forBraceSnippet.documentation = new vscode.MarkdownString('创建for循环 (大括号语法)');
+            snippets.push(forBraceSnippet);
 
             return snippets;
         }
