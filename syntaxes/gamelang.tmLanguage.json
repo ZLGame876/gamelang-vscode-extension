@@ -34,7 +34,7 @@
       "patterns": [
         {
           "name": "keyword.control.gamelang",
-          "match": "\\b(if|else|elif|while|for|in|break|continue|return|pass|fn|class)\\b"
+          "match": "\\b(if|else|elif|while|for|in|break|continue|return|pass|fn|class|如果|否则|否则如果|当|循环|返回|函数|类)\\b"
         },
         {
           "name": "keyword.operator.gamelang",
@@ -88,7 +88,7 @@
       "patterns": [
         {
           "name": "support.function.builtin.gamelang",
-          "match": "\\b(print|input|len|type|str|int|float|bool|abs|max|min|round|floor|ceil|random|randint|now|sleep|append|pop|get|keys|values|items|open|remove|rename|exists|size|listdir|mkdir|rmdir|getcwd|chdir|system|platform|getenv|search_builtin|ai_对话|ai_设置配置|ai_获取配置|ai_测试连接|ai_智能助手|ai_批量对话|ai_多轮对话|ai_多轮助手|ai_代码生成|ai_代码解释|ai_代码优化|ai_代码重构)\\b"
+          "match": "\\b(print|input|len|type|str|int|float|bool|abs|max|min|round|floor|ceil|random|randint|now|sleep|append|pop|get|keys|values|items|open|remove|rename|exists|size|listdir|mkdir|rmdir|getcwd|chdir|system|platform|getenv|search_builtin|ai_ask|打印|输入|长度|类型|字符串|整数|浮点数|布尔值|绝对值|最大值|最小值|四舍五入|总和|随机小数|随机整数|现在时间|暂停|搜索函数|AI问答|列表|字典|集合|排序|反转|枚举|范围|打开文件|读取|写入|关闭)\\b"
         },
         {
           "name": "entity.name.function.gamelang",

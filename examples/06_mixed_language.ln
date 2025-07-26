@@ -1,0 +1,61 @@
+# GameLang 中英混合编程示例
+# 这个文件展示了如何混合使用中文和英文关键字
+
+# 混合变量命名
+name = "John"
+年龄 = 25
+scores = [90, 85, 92, 88, 95]
+
+# 混合函数调用
+print("Hello World!")
+打印("你好世界！")
+
+# 英文函数定义，中文变量
+def calculate_average(分数列表):
+    total = sum(分数列表)
+    average = total / len(分数列表)
+    return average
+
+# 中文函数定义，英文变量
+函数 计算总和(number_list):
+    total_sum = 总和(number_list)
+    return total_sum
+
+# 混合条件语句
+if 年龄 >= 18:
+    print("Adult")
+else:
+    打印("未成年人")
+
+# 混合循环
+for score in scores:
+    print("Score:", score)
+
+循环 分数 在 scores:
+    打印("分数:", 分数)
+
+# 混合数据结构
+student_info = 字典(name="Alice", 年龄=22, major="Computer Science")
+print("Student Info:", student_info)
+
+# 混合函数调用
+random_num = 随机整数(1, 10)
+print("Random number:", random_num)
+
+# 混合文件操作
+file = 打开文件("mixed.txt", "w")
+file.write("Mixed language programming")
+file.close()
+
+# 混合AI功能
+ai_ask("What is mixed language programming?")
+AI问答("什么是混合语言编程？")
+
+# 混合数学运算
+numbers = [1, 2, 3, 4, 5]
+max_value = 最大值(numbers)
+min_value = min(numbers)
+total = 总和(numbers)
+print("Max:", max_value)
+打印("最小值:", min_value)
+print("Total:", total) 

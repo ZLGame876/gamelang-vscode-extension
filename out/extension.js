@@ -7,194 +7,451 @@ function activate(context) {
     console.log('GameLang extension is now active!');
     // 显示激活消息
     vscode.window.showInformationMessage('GameLang扩展已激活！搜索功能快捷键：Cmd+U');
-    // 内置函数数据库
+    // 内置函数数据库（支持中英文）
     const builtinFunctions = {
+        // 输出函数
         'print': {
             description: '打印输出，支持多参数',
             syntax: 'print(值1, 值2, ...)',
             example: 'print("Hello", "World")',
-            keywords: ['打印', '输出', '显示', 'print']
+            keywords: ['打印', '输出', '显示', 'print'],
+            chineseName: '打印'
         },
+        '打印': {
+            description: '打印输出，支持多参数',
+            syntax: '打印(值1, 值2, ...)',
+            example: '打印("你好", "世界")',
+            keywords: ['打印', '输出', '显示', 'print'],
+            chineseName: '打印'
+        },
+        // 输入函数
         'input': {
             description: '获取用户输入',
             syntax: 'input(提示)',
             example: 'name = input("请输入姓名：")',
-            keywords: ['输入', '获取', '读取', 'input']
+            keywords: ['输入', '获取', '读取', 'input'],
+            chineseName: '输入'
         },
+        '输入': {
+            description: '获取用户输入',
+            syntax: '输入(提示)',
+            example: '姓名 = 输入("请输入姓名：")',
+            keywords: ['输入', '获取', '读取', 'input'],
+            chineseName: '输入'
+        },
+        // 长度函数
         'len': {
             description: '获取列表、字符串等长度',
             syntax: 'len(对象)',
             example: 'length = len([1, 2, 3])',
-            keywords: ['长度', '大小', '数量', 'len']
+            keywords: ['长度', '大小', '数量', 'len'],
+            chineseName: '长度'
         },
+        '长度': {
+            description: '获取列表、字符串等长度',
+            syntax: '长度(对象)',
+            example: '长度值 = 长度([1, 2, 3])',
+            keywords: ['长度', '大小', '数量', 'len'],
+            chineseName: '长度'
+        },
+        // 类型函数
         'type': {
             description: '获取变量类型',
             syntax: 'type(变量)',
             example: 'var_type = type(name)',
-            keywords: ['类型', '种类', 'type']
+            keywords: ['类型', '种类', 'type'],
+            chineseName: '类型'
         },
+        '类型': {
+            description: '获取变量类型',
+            syntax: '类型(变量)',
+            example: '变量类型 = 类型(姓名)',
+            keywords: ['类型', '种类', 'type'],
+            chineseName: '类型'
+        },
+        // 字符串转换
         'str': {
             description: '转换为字符串',
             syntax: 'str(值)',
             example: 'text = str(123)',
-            keywords: ['字符串', '文本', 'str']
+            keywords: ['字符串', '文本', 'str'],
+            chineseName: '字符串'
         },
+        '字符串': {
+            description: '转换为字符串',
+            syntax: '字符串(值)',
+            example: '文本 = 字符串(123)',
+            keywords: ['字符串', '文本', 'str'],
+            chineseName: '字符串'
+        },
+        // 整数转换
         'int': {
             description: '转换为整数',
             syntax: 'int(值)',
             example: 'number = int("123")',
-            keywords: ['整数', '数字', 'int']
+            keywords: ['整数', '数字', 'int'],
+            chineseName: '整数'
         },
+        '整数': {
+            description: '转换为整数',
+            syntax: '整数(值)',
+            example: '数字 = 整数("123")',
+            keywords: ['整数', '数字', 'int'],
+            chineseName: '整数'
+        },
+        // 浮点数转换
         'float': {
             description: '转换为浮点数',
             syntax: 'float(值)',
             example: 'decimal = float("3.14")',
-            keywords: ['浮点', '小数', 'float']
+            keywords: ['浮点', '小数', 'float'],
+            chineseName: '浮点数'
         },
+        '浮点数': {
+            description: '转换为浮点数',
+            syntax: '浮点数(值)',
+            example: '小数 = 浮点数("3.14")',
+            keywords: ['浮点', '小数', 'float'],
+            chineseName: '浮点数'
+        },
+        // 布尔值转换
         'bool': {
             description: '转换为布尔值',
             syntax: 'bool(值)',
             example: 'is_true = bool(1)',
-            keywords: ['布尔', '真假', 'bool']
+            keywords: ['布尔', '真假', 'bool'],
+            chineseName: '布尔值'
         },
+        '布尔值': {
+            description: '转换为布尔值',
+            syntax: '布尔值(值)',
+            example: '是真 = 布尔值(1)',
+            keywords: ['布尔', '真假', 'bool'],
+            chineseName: '布尔值'
+        },
+        // 数学函数
         'abs': {
             description: '获取绝对值',
             syntax: 'abs(数值)',
             example: 'result = abs(-5)',
-            keywords: ['绝对值', '绝对', 'abs']
+            keywords: ['绝对值', '绝对', 'abs'],
+            chineseName: '绝对值'
+        },
+        '绝对值': {
+            description: '获取绝对值',
+            syntax: '绝对值(数值)',
+            example: '结果 = 绝对值(-5)',
+            keywords: ['绝对值', '绝对', 'abs'],
+            chineseName: '绝对值'
         },
         'max': {
             description: '获取最大值',
             syntax: 'max(值1, 值2, ...)',
             example: 'maximum = max(1, 2, 3)',
-            keywords: ['最大', '最大值', 'max']
+            keywords: ['最大', '最大值', 'max'],
+            chineseName: '最大值'
+        },
+        '最大值': {
+            description: '获取最大值',
+            syntax: '最大值(值1, 值2, ...)',
+            example: '最大数 = 最大值(1, 2, 3)',
+            keywords: ['最大', '最大值', 'max'],
+            chineseName: '最大值'
         },
         'min': {
             description: '获取最小值',
             syntax: 'min(值1, 值2, ...)',
             example: 'minimum = min(1, 2, 3)',
-            keywords: ['最小', '最小值', 'min']
+            keywords: ['最小', '最小值', 'min'],
+            chineseName: '最小值'
+        },
+        '最小值': {
+            description: '获取最小值',
+            syntax: '最小值(值1, 值2, ...)',
+            example: '最小数 = 最小值(1, 2, 3)',
+            keywords: ['最小', '最小值', 'min'],
+            chineseName: '最小值'
         },
         'round': {
             description: '四舍五入',
             syntax: 'round(数值)',
             example: 'rounded = round(3.6)',
-            keywords: ['四舍五入', '取整', 'round']
+            keywords: ['四舍五入', '取整', 'round'],
+            chineseName: '四舍五入'
         },
-        'random': {
-            description: '生成0-1随机小数',
-            syntax: 'random()',
-            example: 'rand = random()',
-            keywords: ['随机', '随机数', 'random']
-        },
-        'randint': {
-            description: '生成指定范围随机整数',
-            syntax: 'randint(最小值, 最大值)',
-            example: 'rand_num = randint(1, 10)',
-            keywords: ['随机整数', '随机数', 'randint']
-        },
-        'now': {
-            description: '获取当前时间',
-            syntax: 'now()',
-            example: 'current_time = now()',
-            keywords: ['时间', '当前时间', '现在', 'now']
-        },
-        'sleep': {
-            description: '暂停执行指定秒数',
-            syntax: 'sleep(秒数)',
-            example: 'sleep(1)',
-            keywords: ['暂停', '等待', '延时', 'sleep']
-        },
-        'search_builtin': {
-            description: '搜索内置函数',
-            syntax: 'search_builtin(关键词)',
-            example: 'search_builtin("print")',
-            keywords: ['搜索', '查找', '内置函数', 'search']
-        },
-        'ai_ask': {
-            description: 'AI问答功能',
-            syntax: 'ai_ask(问题)',
-            example: 'ai_ask("什么是GameLang？")',
-            keywords: ['AI', '人工智能', '问答', 'ai']
-        },
-        'list': {
-            description: '创建列表',
-            syntax: 'list(可迭代对象)',
-            example: 'my_list = list([1, 2, 3])',
-            keywords: ['列表', '数组', 'list']
-        },
-        'dict': {
-            description: '创建字典',
-            syntax: 'dict(键值对)',
-            example: 'my_dict = dict(name="张三", age=18)',
-            keywords: ['字典', '映射', 'dict']
-        },
-        'set': {
-            description: '创建集合',
-            syntax: 'set(可迭代对象)',
-            example: 'my_set = set([1, 2, 3])',
-            keywords: ['集合', 'set']
+        '四舍五入': {
+            description: '四舍五入',
+            syntax: '四舍五入(数值)',
+            example: '取整 = 四舍五入(3.6)',
+            keywords: ['四舍五入', '取整', 'round'],
+            chineseName: '四舍五入'
         },
         'sum': {
             description: '计算总和',
             syntax: 'sum(可迭代对象)',
             example: 'total = sum([1, 2, 3, 4, 5])',
-            keywords: ['总和', '求和', 'sum']
+            keywords: ['总和', '求和', 'sum'],
+            chineseName: '总和'
         },
+        '总和': {
+            description: '计算总和',
+            syntax: '总和(可迭代对象)',
+            example: '总数 = 总和([1, 2, 3, 4, 5])',
+            keywords: ['总和', '求和', 'sum'],
+            chineseName: '总和'
+        },
+        // 随机函数
+        'random': {
+            description: '生成0-1随机小数',
+            syntax: 'random()',
+            example: 'rand = random()',
+            keywords: ['随机', '随机数', 'random'],
+            chineseName: '随机小数'
+        },
+        '随机小数': {
+            description: '生成0-1随机小数',
+            syntax: '随机小数()',
+            example: '随机数 = 随机小数()',
+            keywords: ['随机', '随机数', 'random'],
+            chineseName: '随机小数'
+        },
+        'randint': {
+            description: '生成指定范围随机整数',
+            syntax: 'randint(最小值, 最大值)',
+            example: 'rand_num = randint(1, 10)',
+            keywords: ['随机整数', '随机数', 'randint'],
+            chineseName: '随机整数'
+        },
+        '随机整数': {
+            description: '生成指定范围随机整数',
+            syntax: '随机整数(最小值, 最大值)',
+            example: '随机数 = 随机整数(1, 10)',
+            keywords: ['随机整数', '随机数', 'randint'],
+            chineseName: '随机整数'
+        },
+        // 时间函数
+        'now': {
+            description: '获取当前时间',
+            syntax: 'now()',
+            example: 'current_time = now()',
+            keywords: ['时间', '当前时间', '现在', 'now'],
+            chineseName: '现在时间'
+        },
+        '现在时间': {
+            description: '获取当前时间',
+            syntax: '现在时间()',
+            example: '当前时间 = 现在时间()',
+            keywords: ['时间', '当前时间', '现在', 'now'],
+            chineseName: '现在时间'
+        },
+        'sleep': {
+            description: '暂停执行指定秒数',
+            syntax: 'sleep(秒数)',
+            example: 'sleep(1)',
+            keywords: ['暂停', '等待', '延时', 'sleep'],
+            chineseName: '暂停'
+        },
+        '暂停': {
+            description: '暂停执行指定秒数',
+            syntax: '暂停(秒数)',
+            example: '暂停(1)',
+            keywords: ['暂停', '等待', '延时', 'sleep'],
+            chineseName: '暂停'
+        },
+        // 搜索函数
+        'search_builtin': {
+            description: '搜索内置函数',
+            syntax: 'search_builtin(关键词)',
+            example: 'search_builtin("print")',
+            keywords: ['搜索', '查找', '内置函数', 'search'],
+            chineseName: '搜索函数'
+        },
+        '搜索函数': {
+            description: '搜索内置函数',
+            syntax: '搜索函数(关键词)',
+            example: '搜索函数("打印")',
+            keywords: ['搜索', '查找', '内置函数', 'search'],
+            chineseName: '搜索函数'
+        },
+        // AI函数
+        'ai_ask': {
+            description: 'AI问答功能',
+            syntax: 'ai_ask(问题)',
+            example: 'ai_ask("什么是GameLang？")',
+            keywords: ['AI', '人工智能', '问答', 'ai'],
+            chineseName: 'AI问答'
+        },
+        'AI问答': {
+            description: 'AI问答功能',
+            syntax: 'AI问答(问题)',
+            example: 'AI问答("什么是GameLang？")',
+            keywords: ['AI', '人工智能', '问答', 'ai'],
+            chineseName: 'AI问答'
+        },
+        // 数据结构
+        'list': {
+            description: '创建列表',
+            syntax: 'list(可迭代对象)',
+            example: 'my_list = list([1, 2, 3])',
+            keywords: ['列表', '数组', 'list'],
+            chineseName: '列表'
+        },
+        '列表': {
+            description: '创建列表',
+            syntax: '列表(可迭代对象)',
+            example: '我的列表 = 列表([1, 2, 3])',
+            keywords: ['列表', '数组', 'list'],
+            chineseName: '列表'
+        },
+        'dict': {
+            description: '创建字典',
+            syntax: 'dict(键值对)',
+            example: 'my_dict = dict(name="张三", age=18)',
+            keywords: ['字典', '映射', 'dict'],
+            chineseName: '字典'
+        },
+        '字典': {
+            description: '创建字典',
+            syntax: '字典(键值对)',
+            example: '我的字典 = 字典(姓名="张三", 年龄=18)',
+            keywords: ['字典', '映射', 'dict'],
+            chineseName: '字典'
+        },
+        'set': {
+            description: '创建集合',
+            syntax: 'set(可迭代对象)',
+            example: 'my_set = set([1, 2, 3])',
+            keywords: ['集合', 'set'],
+            chineseName: '集合'
+        },
+        '集合': {
+            description: '创建集合',
+            syntax: '集合(可迭代对象)',
+            example: '我的集合 = 集合([1, 2, 3])',
+            keywords: ['集合', 'set'],
+            chineseName: '集合'
+        },
+        // 排序和反转
         'sorted': {
             description: '排序',
             syntax: 'sorted(可迭代对象)',
             example: 'sorted_list = sorted([3, 1, 4, 1, 5])',
-            keywords: ['排序', 'sorted']
+            keywords: ['排序', 'sorted'],
+            chineseName: '排序'
+        },
+        '排序': {
+            description: '排序',
+            syntax: '排序(可迭代对象)',
+            example: '排序列表 = 排序([3, 1, 4, 1, 5])',
+            keywords: ['排序', 'sorted'],
+            chineseName: '排序'
         },
         'reversed': {
             description: '反转',
             syntax: 'reversed(可迭代对象)',
             example: 'reversed_list = list(reversed([1, 2, 3]))',
-            keywords: ['反转', '倒序', 'reversed']
+            keywords: ['反转', '倒序', 'reversed'],
+            chineseName: '反转'
         },
+        '反转': {
+            description: '反转',
+            syntax: '反转(可迭代对象)',
+            example: '反转列表 = 列表(反转([1, 2, 3]))',
+            keywords: ['反转', '倒序', 'reversed'],
+            chineseName: '反转'
+        },
+        // 迭代工具
         'enumerate': {
             description: '枚举',
             syntax: 'enumerate(可迭代对象)',
             example: 'for i, item in enumerate(["a", "b", "c"]):',
-            keywords: ['枚举', 'enumerate']
+            keywords: ['枚举', 'enumerate'],
+            chineseName: '枚举'
+        },
+        '枚举': {
+            description: '枚举',
+            syntax: '枚举(可迭代对象)',
+            example: 'for i, item in 枚举(["a", "b", "c"]):',
+            keywords: ['枚举', 'enumerate'],
+            chineseName: '枚举'
         },
         'range': {
             description: '生成数字序列',
             syntax: 'range(开始, 结束, 步长)',
             example: 'for i in range(0, 10, 2):',
-            keywords: ['范围', '序列', 'range']
+            keywords: ['范围', '序列', 'range'],
+            chineseName: '范围'
         },
+        '范围': {
+            description: '生成数字序列',
+            syntax: '范围(开始, 结束, 步长)',
+            example: 'for i in 范围(0, 10, 2):',
+            keywords: ['范围', '序列', 'range'],
+            chineseName: '范围'
+        },
+        // 文件操作
         'open': {
             description: '打开文件',
             syntax: 'open(文件名, 模式)',
             example: 'file = open("test.txt", "r")',
-            keywords: ['文件', '打开', 'open']
+            keywords: ['文件', '打开', 'open'],
+            chineseName: '打开文件'
+        },
+        '打开文件': {
+            description: '打开文件',
+            syntax: '打开文件(文件名, 模式)',
+            example: '文件 = 打开文件("test.txt", "r")',
+            keywords: ['文件', '打开', 'open'],
+            chineseName: '打开文件'
         },
         'read': {
             description: '读取文件内容',
             syntax: 'read()',
             example: 'content = file.read()',
-            keywords: ['读取', 'read']
+            keywords: ['读取', 'read'],
+            chineseName: '读取'
+        },
+        '读取': {
+            description: '读取文件内容',
+            syntax: '读取()',
+            example: '内容 = 文件.读取()',
+            keywords: ['读取', 'read'],
+            chineseName: '读取'
         },
         'write': {
             description: '写入文件',
             syntax: 'write(内容)',
             example: 'file.write("Hello World")',
-            keywords: ['写入', 'write']
+            keywords: ['写入', 'write'],
+            chineseName: '写入'
+        },
+        '写入': {
+            description: '写入文件',
+            syntax: '写入(内容)',
+            example: '文件.写入("Hello World")',
+            keywords: ['写入', 'write'],
+            chineseName: '写入'
         },
         'close': {
             description: '关闭文件',
             syntax: 'close()',
             example: 'file.close()',
-            keywords: ['关闭', 'close']
+            keywords: ['关闭', 'close'],
+            chineseName: '关闭'
+        },
+        '关闭': {
+            description: '关闭文件',
+            syntax: '关闭()',
+            example: '文件.关闭()',
+            keywords: ['关闭', 'close'],
+            chineseName: '关闭'
         }
     };
     // 注册搜索命令
     let searchCommand = vscode.commands.registerCommand('gamelang.searchBuiltin', async () => {
         const searchTerm = await vscode.window.showInputBox({
             prompt: '请输入要搜索的GameLang内置函数',
-            placeHolder: '例如: print, input, len, 随机, 打印...'
+            placeHolder: '例如: 打印, 输入, 长度, 随机, 打印...'
         });
         if (searchTerm) {
             try {
@@ -277,8 +534,13 @@ function activate(context) {
                 item.documentation = new vscode.MarkdownString(`**${func}**\n\n${funcInfo.description}\n\n**语法:** ${funcInfo.syntax}\n\n**示例:** ${funcInfo.example}`);
                 completions.push(item);
             });
-            // 关键字
-            const keywords = ['fn', 'class', 'if', 'elif', 'else', 'while', 'for', 'return', 'import', 'use'];
+            // 关键字（支持中英文）
+            const keywords = [
+                // 英文关键字
+                'fn', 'class', 'if', 'elif', 'else', 'while', 'for', 'return', 'import', 'use',
+                // 中文关键字
+                '函数', '类', '如果', '否则如果', '否则', '当', '循环', '返回', '导入', '使用'
+            ];
             keywords.forEach(keyword => {
                 const item = new vscode.CompletionItem(keyword, vscode.CompletionItemKind.Keyword);
                 item.detail = 'GameLang Keyword';
@@ -404,31 +666,48 @@ function activate(context) {
     const snippetProvider = vscode.languages.registerCompletionItemProvider('gamelang', {
         provideCompletionItems(document, position, token, context) {
             const snippets = [];
-            // 函数定义片段
+            // 英文代码片段
             const fnSnippet = new vscode.CompletionItem('fn', vscode.CompletionItemKind.Snippet);
             fnSnippet.insertText = new vscode.SnippetString('fn ${1:函数名}(${2:参数}):\n\t${3:# 函数体}');
-            fnSnippet.documentation = new vscode.MarkdownString('创建函数定义');
+            fnSnippet.documentation = new vscode.MarkdownString('创建函数定义 (英文)');
             snippets.push(fnSnippet);
-            // 类定义片段
             const classSnippet = new vscode.CompletionItem('class', vscode.CompletionItemKind.Snippet);
             classSnippet.insertText = new vscode.SnippetString('class ${1:类名}:\n\t${2:# 类属性}');
-            classSnippet.documentation = new vscode.MarkdownString('创建类定义');
+            classSnippet.documentation = new vscode.MarkdownString('创建类定义 (英文)');
             snippets.push(classSnippet);
-            // if语句片段
             const ifSnippet = new vscode.CompletionItem('if', vscode.CompletionItemKind.Snippet);
             ifSnippet.insertText = new vscode.SnippetString('if ${1:条件}:\n\t${2:# 代码块}');
-            ifSnippet.documentation = new vscode.MarkdownString('创建if条件语句');
+            ifSnippet.documentation = new vscode.MarkdownString('创建if条件语句 (英文)');
             snippets.push(ifSnippet);
-            // while循环片段
             const whileSnippet = new vscode.CompletionItem('while', vscode.CompletionItemKind.Snippet);
             whileSnippet.insertText = new vscode.SnippetString('while ${1:条件}:\n\t${2:# 循环体}');
-            whileSnippet.documentation = new vscode.MarkdownString('创建while循环');
+            whileSnippet.documentation = new vscode.MarkdownString('创建while循环 (英文)');
             snippets.push(whileSnippet);
-            // for循环片段
             const forSnippet = new vscode.CompletionItem('for', vscode.CompletionItemKind.Snippet);
             forSnippet.insertText = new vscode.SnippetString('for ${1:变量} in ${2:可迭代对象}:\n\t${3:# 循环体}');
-            forSnippet.documentation = new vscode.MarkdownString('创建for循环');
+            forSnippet.documentation = new vscode.MarkdownString('创建for循环 (英文)');
             snippets.push(forSnippet);
+            // 中文代码片段
+            const fnChineseSnippet = new vscode.CompletionItem('函数', vscode.CompletionItemKind.Snippet);
+            fnChineseSnippet.insertText = new vscode.SnippetString('函数 ${1:函数名}(${2:参数}):\n\t${3:# 函数体}');
+            fnChineseSnippet.documentation = new vscode.MarkdownString('创建函数定义 (中文)');
+            snippets.push(fnChineseSnippet);
+            const classChineseSnippet = new vscode.CompletionItem('类', vscode.CompletionItemKind.Snippet);
+            classChineseSnippet.insertText = new vscode.SnippetString('类 ${1:类名}:\n\t${2:# 类属性}');
+            classChineseSnippet.documentation = new vscode.MarkdownString('创建类定义 (中文)');
+            snippets.push(classChineseSnippet);
+            const ifChineseSnippet = new vscode.CompletionItem('如果', vscode.CompletionItemKind.Snippet);
+            ifChineseSnippet.insertText = new vscode.SnippetString('如果 ${1:条件}:\n\t${2:# 代码块}');
+            ifChineseSnippet.documentation = new vscode.MarkdownString('创建if条件语句 (中文)');
+            snippets.push(ifChineseSnippet);
+            const whileChineseSnippet = new vscode.CompletionItem('当', vscode.CompletionItemKind.Snippet);
+            whileChineseSnippet.insertText = new vscode.SnippetString('当 ${1:条件}:\n\t${2:# 循环体}');
+            whileChineseSnippet.documentation = new vscode.MarkdownString('创建while循环 (中文)');
+            snippets.push(whileChineseSnippet);
+            const forChineseSnippet = new vscode.CompletionItem('循环', vscode.CompletionItemKind.Snippet);
+            forChineseSnippet.insertText = new vscode.SnippetString('循环 ${1:变量} 在 ${2:可迭代对象}:\n\t${3:# 循环体}');
+            forChineseSnippet.documentation = new vscode.MarkdownString('创建for循环 (中文)');
+            snippets.push(forChineseSnippet);
             return snippets;
         }
     }, 'f', 'c', 'i', 'w');
