@@ -309,6 +309,252 @@ export class GameLangInterpreter {
             return dict.hasOwnProperty(key) ? dict[key] : defaultValue;
         };
         this.functions['安全获取字典'] = this.functions['safeGetDict'];
+
+        // ===== 新增：文件操作相关函数 =====
+        
+        // 文件读写操作
+        this.functions['readFile'] = async (filePath: string, encoding: string = 'utf8') => {
+            try {
+                const fs = require('fs');
+                const content = await fs.promises.readFile(filePath, encoding);
+                this.outputChannel.appendLine(`[文件] 成功读取文件: ${filePath}`);
+                return content;
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 读取文件失败: ${error}`);
+                throw error;
+            }
+        };
+        this.functions['读取文件'] = this.functions['readFile'];
+        this.functions['读文件'] = this.functions['readFile'];
+
+        this.functions['writeFile'] = async (filePath: string, content: string, encoding: string = 'utf8') => {
+            try {
+                const fs = require('fs');
+                await fs.promises.writeFile(filePath, content, encoding);
+                this.outputChannel.appendLine(`[文件] 成功写入文件: ${filePath}`);
+                return true;
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 写入文件失败: ${error}`);
+                throw error;
+            }
+        };
+        this.functions['写入文件'] = this.functions['writeFile'];
+        this.functions['写文件'] = this.functions['writeFile'];
+
+        this.functions['appendFile'] = async (filePath: string, content: string, encoding: string = 'utf8') => {
+            try {
+                const fs = require('fs');
+                await fs.promises.appendFile(filePath, content, encoding);
+                this.outputChannel.appendLine(`[文件] 成功追加到文件: ${filePath}`);
+                return true;
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 追加文件失败: ${error}`);
+                throw error;
+            }
+        };
+        this.functions['追加文件'] = this.functions['appendFile'];
+
+        // 文件信息操作
+        this.functions['fileExists'] = (filePath: string) => {
+            try {
+                const fs = require('fs');
+                return fs.existsSync(filePath);
+            } catch (error) {
+                return false;
+            }
+        };
+        this.functions['文件存在'] = this.functions['fileExists'];
+        this.functions['存在文件'] = this.functions['fileExists'];
+
+        this.functions['fileSize'] = (filePath: string) => {
+            try {
+                const fs = require('fs');
+                const stats = fs.statSync(filePath);
+                return stats.size;
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 获取文件大小失败: ${error}`);
+                return -1;
+            }
+        };
+        this.functions['文件大小'] = this.functions['fileSize'];
+        this.functions['获取文件大小'] = this.functions['fileSize'];
+
+        this.functions['fileInfo'] = (filePath: string) => {
+            try {
+                const fs = require('fs');
+                const stats = fs.statSync(filePath);
+                return {
+                    size: stats.size,
+                    created: stats.birthtime,
+                    modified: stats.mtime,
+                    isFile: stats.isFile(),
+                    isDirectory: stats.isDirectory()
+                };
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 获取文件信息失败: ${error}`);
+                return null;
+            }
+        };
+        this.functions['文件信息'] = this.functions['fileInfo'];
+        this.functions['获取文件信息'] = this.functions['fileInfo'];
+
+        // 目录操作
+        this.functions['mkdir'] = async (dirPath: string) => {
+            try {
+                const fs = require('fs');
+                await fs.promises.mkdir(dirPath, { recursive: true });
+                this.outputChannel.appendLine(`[目录] 成功创建目录: ${dirPath}`);
+                return true;
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 创建目录失败: ${error}`);
+                throw error;
+            }
+        };
+        this.functions['创建目录'] = this.functions['mkdir'];
+        this.functions['新建目录'] = this.functions['mkdir'];
+
+        this.functions['listDir'] = (dirPath: string) => {
+            try {
+                const fs = require('fs');
+                const items = fs.readdirSync(dirPath);
+                return items;
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 列出目录失败: ${error}`);
+                return [];
+            }
+        };
+        this.functions['列出目录'] = this.functions['listDir'];
+        this.functions['目录列表'] = this.functions['listDir'];
+
+        this.functions['listDirDetailed'] = (dirPath: string) => {
+            try {
+                const fs = require('fs');
+                const items = fs.readdirSync(dirPath);
+                const detailed = items.map((item: string) => {
+                    const fullPath = require('path').join(dirPath, item);
+                    const stats = fs.statSync(fullPath);
+                    return {
+                        name: item,
+                        isFile: stats.isFile(),
+                        isDirectory: stats.isDirectory(),
+                        size: stats.size,
+                        modified: stats.mtime
+                    };
+                });
+                return detailed;
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 列出目录详情失败: ${error}`);
+                return [];
+            }
+        };
+        this.functions['列出目录详情'] = this.functions['listDirDetailed'];
+
+        // 文件删除操作
+        this.functions['deleteFile'] = async (filePath: string) => {
+            try {
+                const fs = require('fs');
+                await fs.promises.unlink(filePath);
+                this.outputChannel.appendLine(`[文件] 成功删除文件: ${filePath}`);
+                return true;
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 删除文件失败: ${error}`);
+                throw error;
+            }
+        };
+        this.functions['删除文件'] = this.functions['deleteFile'];
+        this.functions['移除文件'] = this.functions['deleteFile'];
+
+        this.functions['deleteDir'] = async (dirPath: string) => {
+            try {
+                const fs = require('fs');
+                await fs.promises.rmdir(dirPath, { recursive: true });
+                this.outputChannel.appendLine(`[目录] 成功删除目录: ${dirPath}`);
+                return true;
+            } catch (error) {
+                this.outputChannel.appendLine(`❌ 删除目录失败: ${error}`);
+                throw error;
+            }
+        };
+        this.functions['删除目录'] = this.functions['deleteDir'];
+        this.functions['移除目录'] = this.functions['deleteDir'];
+
+        // 路径操作
+        this.functions['joinPath'] = (...paths: string[]) => {
+            const path = require('path');
+            return path.join(...paths);
+        };
+        this.functions['连接路径'] = this.functions['joinPath'];
+        this.functions['路径连接'] = this.functions['joinPath'];
+
+        this.functions['getFileName'] = (filePath: string) => {
+            const path = require('path');
+            return path.basename(filePath);
+        };
+        this.functions['获取文件名'] = this.functions['getFileName'];
+
+        this.functions['getFileExt'] = (filePath: string) => {
+            const path = require('path');
+            return path.extname(filePath);
+        };
+        this.functions['获取文件扩展名'] = this.functions['getFileExt'];
+
+        this.functions['getDirName'] = (filePath: string) => {
+            const path = require('path');
+            return path.dirname(filePath);
+        };
+        this.functions['获取目录名'] = this.functions['getDirName'];
+
+        // 系统信息
+        this.functions['getCurrentDir'] = () => {
+            return process.cwd();
+        };
+        this.functions['当前目录'] = this.functions['getCurrentDir'];
+        this.functions['获取当前目录'] = this.functions['getCurrentDir'];
+
+        this.functions['getHomeDir'] = () => {
+            return require('os').homedir();
+        };
+        this.functions['用户目录'] = this.functions['getHomeDir'];
+        this.functions['获取用户目录'] = this.functions['getHomeDir'];
+
+        this.functions['getTempDir'] = () => {
+            return require('os').tmpdir();
+        };
+        this.functions['临时目录'] = this.functions['getTempDir'];
+        this.functions['获取临时目录'] = this.functions['getTempDir'];
+
+        // 环境变量
+        this.functions['getEnv'] = (name: string) => {
+            return process.env[name] || '';
+        };
+        this.functions['获取环境变量'] = this.functions['getEnv'];
+        this.functions['环境变量'] = this.functions['getEnv'];
+
+        this.functions['setEnv'] = (name: string, value: string) => {
+            process.env[name] = value;
+            return true;
+        };
+        this.functions['设置环境变量'] = this.functions['setEnv'];
+
+        // 系统信息
+        this.functions['getOsInfo'] = () => {
+            const os = require('os');
+            return {
+                platform: os.platform(),
+                arch: os.arch(),
+                version: os.version(),
+                hostname: os.hostname(),
+                userInfo: os.userInfo()
+            };
+        };
+        this.functions['系统信息'] = this.functions['getOsInfo'];
+        this.functions['获取系统信息'] = this.functions['getOsInfo'];
+
+        this.functions['getCurrentTime'] = () => {
+            return new Date().toISOString();
+        };
+        this.functions['当前时间'] = this.functions['getCurrentTime'];
+        this.functions['获取当前时间'] = this.functions['getCurrentTime'];
     }
 
     private initializeGameModule() {

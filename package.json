@@ -2,7 +2,7 @@
   "name": "gamelang",
   "displayName": "GameLang - Game Programming Language",
   "description": "Complete support for GameLang programming language with syntax highlighting, IntelliSense, debugging, and AI integration",
-      "version": "1.5.3",
+      "version": "1.6.0",
   "publisher": "gamelang-team",
   "engines": {
     "vscode": "^1.60.0"
