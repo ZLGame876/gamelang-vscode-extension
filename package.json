@@ -2,7 +2,7 @@
   "name": "gamelang",
   "displayName": "GameLang - Game Programming Language",
   "description": "Complete support for GameLang programming language with syntax highlighting, IntelliSense, debugging, and AI integration",
-      "version": "1.5.0",
+      "version": "1.5.1",
   "publisher": "gamelang-team",
   "engines": {
     "vscode": "^1.60.0"
@@ -73,6 +73,10 @@
       {
         "command": "gamelang.runFile",
         "title": "运行当前 GameLang 文件"
+      },
+      {
+        "command": "gamelang.runWithF5",
+        "title": "F5运行 GameLang 文件"
       },
       {
         "command": "gamelang.runButton",
