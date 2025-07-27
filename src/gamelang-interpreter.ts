@@ -224,6 +224,91 @@ export class GameLangInterpreter {
         };
         this.functions['包含'] = this.functions['has'];
         this.functions['存在'] = this.functions['has'];
+
+        // ===== 新增：错误处理相关函数 =====
+        
+        // 抛出异常
+        this.functions['throw'] = (message: string) => {
+            throw new Error(message);
+        };
+        this.functions['抛出'] = this.functions['throw'];
+        this.functions['异常'] = this.functions['throw'];
+
+        // 断言
+        this.functions['assert'] = (condition: any, message?: string) => {
+            if (!condition) {
+                const errorMessage = message || '断言失败';
+                throw new Error(`断言错误: ${errorMessage}`);
+            }
+        };
+        this.functions['断言'] = this.functions['assert'];
+
+        // 检查是否为数字
+        this.functions['isNumber'] = (value: any) => {
+            return typeof value === 'number' && !isNaN(value);
+        };
+        this.functions['是数字'] = this.functions['isNumber'];
+
+        // 检查是否为字符串
+        this.functions['isString'] = (value: any) => {
+            return typeof value === 'string';
+        };
+        this.functions['是字符串'] = this.functions['isString'];
+
+        // 检查是否为数组
+        this.functions['isArray'] = (value: any) => {
+            return Array.isArray(value);
+        };
+        this.functions['是数组'] = this.functions['isArray'];
+
+        // 检查是否为对象
+        this.functions['isObject'] = (value: any) => {
+            return typeof value === 'object' && value !== null && !Array.isArray(value);
+        };
+        this.functions['是对象'] = this.functions['isObject'];
+
+        // 检查是否为空
+        this.functions['isEmpty'] = (value: any) => {
+            if (value === null || value === undefined) return true;
+            if (typeof value === 'string') return value.length === 0;
+            if (Array.isArray(value)) return value.length === 0;
+            if (typeof value === 'object') return Object.keys(value).length === 0;
+            return false;
+        };
+        this.functions['为空'] = this.functions['isEmpty'];
+
+        // 安全除法（避免除零错误）
+        this.functions['safeDivide'] = (a: number, b: number, defaultValue?: number) => {
+            if (b === 0) {
+                if (defaultValue !== undefined) {
+                    return defaultValue;
+                }
+                throw new Error('除零错误');
+            }
+            return a / b;
+        };
+        this.functions['安全除法'] = this.functions['safeDivide'];
+
+        // 安全数组访问
+        this.functions['safeGet'] = (arr: any[], index: number, defaultValue?: any) => {
+            if (!Array.isArray(arr)) {
+                throw new Error('第一个参数必须是数组');
+            }
+            if (index < 0 || index >= arr.length) {
+                return defaultValue;
+            }
+            return arr[index];
+        };
+        this.functions['安全获取'] = this.functions['safeGet'];
+
+        // 安全字典访问
+        this.functions['safeGetDict'] = (dict: any, key: string, defaultValue?: any) => {
+            if (typeof dict !== 'object' || dict === null) {
+                throw new Error('第一个参数必须是字典');
+            }
+            return dict.hasOwnProperty(key) ? dict[key] : defaultValue;
+        };
+        this.functions['安全获取字典'] = this.functions['safeGetDict'];
     }
 
     private initializeGameModule() {
@@ -324,16 +409,143 @@ export class GameLangInterpreter {
         const lines = code.split('\n');
         this.outputChannel.appendLine(`总行数: ${lines.length}\n`);
 
-        for (let i = 0; i < lines.length; i++) {
+        await this.executeLines(lines);
+        this.outputChannel.appendLine('\n=== 执行完成 ===');
+    }
+
+    private async executeLines(lines: string[]): Promise<void> {
+        let i = 0;
+        while (i < lines.length) {
             const line = lines[i].trim();
-            if (line && !line.startsWith('#')) {
-                await this.executeLine(line, i + 1);
+            
+            if (!line || line.startsWith('#')) {
+                i++;
+                continue;
+            }
+
+            // 处理try-catch-finally块
+            if (line.startsWith('try') || line.startsWith('尝试')) {
+                i = await this.executeTryCatchBlock(lines, i);
             } else {
-                this.outputChannel.appendLine(`[跳过] 第${i + 1}行: ${line}`);
+                await this.executeLine(line, i + 1);
+                i++;
+            }
+        }
+    }
+
+    private async executeTryCatchBlock(lines: string[], startIndex: number): Promise<number> {
+        const tryStart = startIndex;
+        let tryEnd = startIndex;
+        let catchStart = -1;
+        let catchEnd = -1;
+        let finallyStart = -1;
+        let finallyEnd = -1;
+        
+        let braceCount = 0;
+        let inTryBlock = false;
+        let inCatchBlock = false;
+        let inFinallyBlock = false;
+
+        // 解析try-catch-finally结构
+        for (let i = startIndex; i < lines.length; i++) {
+            const line = lines[i].trim();
+            
+            if (line.startsWith('try') || line.startsWith('尝试')) {
+                inTryBlock = true;
+                // tryStart = i; // 移除这行，因为tryStart已经是常量
+                continue;
+            }
+            
+            if (line.startsWith('catch') || line.startsWith('捕获')) {
+                if (inTryBlock) {
+                    tryEnd = i - 1;
+                    inTryBlock = false;
+                }
+                inCatchBlock = true;
+                catchStart = i;
+                continue;
+            }
+            
+            if (line.startsWith('finally') || line.startsWith('最终')) {
+                if (inCatchBlock) {
+                    catchEnd = i - 1;
+                    inCatchBlock = false;
+                } else if (inTryBlock) {
+                    tryEnd = i - 1;
+                    inTryBlock = false;
+                }
+                inFinallyBlock = true;
+                finallyStart = i;
+                continue;
+            }
+
+            // 计算花括号
+            if (line.includes('{')) {
+                braceCount += (line.match(/\{/g) || []).length;
+            }
+            if (line.includes('}')) {
+                braceCount -= (line.match(/\}/g) || []).length;
+            }
+
+            // 如果花括号计数为0，说明块结束
+            if (braceCount === 0 && (inTryBlock || inCatchBlock || inFinallyBlock)) {
+                if (inTryBlock) {
+                    tryEnd = i;
+                    inTryBlock = false;
+                } else if (inCatchBlock) {
+                    catchEnd = i;
+                    inCatchBlock = false;
+                } else if (inFinallyBlock) {
+                    finallyEnd = i;
+                    inFinallyBlock = false;
+                    break;
+                }
             }
         }
 
-        this.outputChannel.appendLine('\n=== 执行完成 ===');
+        // 执行try块
+        let error = null;
+        try {
+            this.outputChannel.appendLine(`[错误处理] 执行try块 (第${tryStart + 1}-${tryEnd + 1}行)`);
+            for (let i = tryStart + 1; i <= tryEnd; i++) {
+                const line = lines[i].trim();
+                if (line && !line.startsWith('#')) {
+                    await this.executeLine(line, i + 1);
+                }
+            }
+        } catch (err) {
+            error = err;
+            this.outputChannel.appendLine(`[错误处理] try块发生异常: ${err}`);
+        }
+
+        // 执行catch块
+        if (error && catchStart >= 0) {
+            this.outputChannel.appendLine(`[错误处理] 执行catch块 (第${catchStart + 1}-${catchEnd + 1}行)`);
+            // 将错误信息存储到变量中
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            this.variables['error'] = errorMessage;
+            this.variables['异常'] = errorMessage;
+            
+            for (let i = catchStart + 1; i <= catchEnd; i++) {
+                const line = lines[i].trim();
+                if (line && !line.startsWith('#')) {
+                    await this.executeLine(line, i + 1);
+                }
+            }
+        }
+
+        // 执行finally块
+        if (finallyStart >= 0) {
+            this.outputChannel.appendLine(`[错误处理] 执行finally块 (第${finallyStart + 1}-${finallyEnd + 1}行)`);
+            for (let i = finallyStart + 1; i <= finallyEnd; i++) {
+                const line = lines[i].trim();
+                if (line && !line.startsWith('#')) {
+                    await this.executeLine(line, i + 1);
+                }
+            }
+        }
+
+        return finallyEnd >= 0 ? finallyEnd + 1 : (catchEnd >= 0 ? catchEnd + 1 : tryEnd + 1);
     }
 
     private async executeLine(line: string, lineNumber: number): Promise<void> {
