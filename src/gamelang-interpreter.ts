@@ -45,6 +45,8 @@ export class GameLangInterpreter {
 
         // 内置type函数
         this.functions['type'] = (obj: any) => {
+            if (Array.isArray(obj)) return 'array';
+            if (obj === null) return 'null';
             return typeof obj;
         };
 
@@ -72,6 +74,156 @@ export class GameLangInterpreter {
         this.functions['现在时间'] = this.functions['now'];
         this.functions['sleep'] = (ms: number) => new Promise(resolve => setTimeout(resolve, ms * 1000));
         this.functions['暂停'] = this.functions['sleep'];
+
+        // ===== 新增：数组/列表操作函数 =====
+        
+        // 创建数组
+        this.functions['array'] = (...args: any[]) => args;
+        this.functions['数组'] = this.functions['array'];
+        this.functions['list'] = (...args: any[]) => args;
+        this.functions['列表'] = this.functions['list'];
+
+        // 数组操作
+        this.functions['push'] = (arr: any[], ...items: any[]) => {
+            if (!Array.isArray(arr)) {
+                this.outputChannel.appendLine('❌ 错误: 第一个参数必须是数组');
+                return arr;
+            }
+            arr.push(...items);
+            return arr;
+        };
+        this.functions['添加'] = this.functions['push'];
+        this.functions['append'] = this.functions['push'];
+        this.functions['追加'] = this.functions['push'];
+
+        this.functions['pop'] = (arr: any[]) => {
+            if (!Array.isArray(arr)) {
+                this.outputChannel.appendLine('❌ 错误: 参数必须是数组');
+                return undefined;
+            }
+            return arr.pop();
+        };
+        this.functions['移除'] = this.functions['pop'];
+        this.functions['删除'] = this.functions['pop'];
+
+        this.functions['insert'] = (arr: any[], index: number, item: any) => {
+            if (!Array.isArray(arr)) {
+                this.outputChannel.appendLine('❌ 错误: 第一个参数必须是数组');
+                return arr;
+            }
+            arr.splice(index, 0, item);
+            return arr;
+        };
+        this.functions['插入'] = this.functions['insert'];
+
+        this.functions['remove'] = (arr: any[], item: any) => {
+            if (!Array.isArray(arr)) {
+                this.outputChannel.appendLine('❌ 错误: 第一个参数必须是数组');
+                return arr;
+            }
+            const index = arr.indexOf(item);
+            if (index > -1) {
+                arr.splice(index, 1);
+            }
+            return arr;
+        };
+        this.functions['移除元素'] = this.functions['remove'];
+
+        this.functions['index'] = (arr: any[], item: any) => {
+            if (!Array.isArray(arr)) {
+                this.outputChannel.appendLine('❌ 错误: 第一个参数必须是数组');
+                return -1;
+            }
+            return arr.indexOf(item);
+        };
+        this.functions['索引'] = this.functions['index'];
+
+        this.functions['sort'] = (arr: any[]) => {
+            if (!Array.isArray(arr)) {
+                this.outputChannel.appendLine('❌ 错误: 参数必须是数组');
+                return arr;
+            }
+            return [...arr].sort();
+        };
+        this.functions['排序'] = this.functions['sort'];
+
+        this.functions['reverse'] = (arr: any[]) => {
+            if (!Array.isArray(arr)) {
+                this.outputChannel.appendLine('❌ 错误: 参数必须是数组');
+                return arr;
+            }
+            return [...arr].reverse();
+        };
+        this.functions['反转'] = this.functions['reverse'];
+
+        // ===== 新增：字典/映射操作函数 =====
+        
+        // 创建字典
+        this.functions['dict'] = () => ({});
+        this.functions['字典'] = this.functions['dict'];
+        this.functions['map'] = () => ({});
+        this.functions['映射'] = this.functions['map'];
+
+        // 字典操作
+        this.functions['set'] = (dict: any, key: string, value: any) => {
+            if (typeof dict !== 'object' || dict === null) {
+                this.outputChannel.appendLine('❌ 错误: 第一个参数必须是字典');
+                return dict;
+            }
+            dict[key] = value;
+            return dict;
+        };
+        this.functions['设置'] = this.functions['set'];
+
+        this.functions['get'] = (dict: any, key: string, defaultValue?: any) => {
+            if (typeof dict !== 'object' || dict === null) {
+                this.outputChannel.appendLine('❌ 错误: 第一个参数必须是字典');
+                return defaultValue;
+            }
+            return dict.hasOwnProperty(key) ? dict[key] : defaultValue;
+        };
+        this.functions['获取'] = this.functions['get'];
+
+        this.functions['delete'] = (dict: any, key: string) => {
+            if (typeof dict !== 'object' || dict === null) {
+                this.outputChannel.appendLine('❌ 错误: 第一个参数必须是字典');
+                return false;
+            }
+            if (dict.hasOwnProperty(key)) {
+                delete dict[key];
+                return true;
+            }
+            return false;
+        };
+        this.functions['删除键'] = this.functions['delete'];
+
+        this.functions['keys'] = (dict: any) => {
+            if (typeof dict !== 'object' || dict === null) {
+                this.outputChannel.appendLine('❌ 错误: 参数必须是字典');
+                return [];
+            }
+            return Object.keys(dict);
+        };
+        this.functions['键列表'] = this.functions['keys'];
+
+        this.functions['values'] = (dict: any) => {
+            if (typeof dict !== 'object' || dict === null) {
+                this.outputChannel.appendLine('❌ 错误: 参数必须是字典');
+                return [];
+            }
+            return Object.values(dict);
+        };
+        this.functions['值列表'] = this.functions['values'];
+
+        this.functions['has'] = (dict: any, key: string) => {
+            if (typeof dict !== 'object' || dict === null) {
+                this.outputChannel.appendLine('❌ 错误: 第一个参数必须是字典');
+                return false;
+            }
+            return dict.hasOwnProperty(key);
+        };
+        this.functions['包含'] = this.functions['has'];
+        this.functions['存在'] = this.functions['has'];
     }
 
     private initializeGameModule() {
@@ -311,6 +463,114 @@ export class GameLangInterpreter {
             return evaluatedParts.join('');
         }
         
+        // 数组字面量 [1, 2, 3]
+        if (expr.startsWith('[') && expr.endsWith(']')) {
+            const content = expr.slice(1, -1).trim();
+            if (!content) return [];
+            
+            const elements: any[] = [];
+            let current = '';
+            let inString = false;
+            let stringChar = '';
+            let parenCount = 0;
+            let braceCount = 0;
+            
+            for (let i = 0; i < content.length; i++) {
+                const char = content[i];
+                
+                if (!inString && (char === '"' || char === "'")) {
+                    inString = true;
+                    stringChar = char;
+                    current += char;
+                } else if (inString && char === stringChar) {
+                    inString = false;
+                    current += char;
+                } else if (!inString && char === '(') {
+                    parenCount++;
+                    current += char;
+                } else if (!inString && char === ')') {
+                    parenCount--;
+                    current += char;
+                } else if (!inString && char === '[') {
+                    braceCount++;
+                    current += char;
+                } else if (!inString && char === ']') {
+                    braceCount--;
+                    current += char;
+                } else if (!inString && parenCount === 0 && braceCount === 0 && char === ',') {
+                    elements.push(this.evaluateExpression(current.trim()));
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            if (current.trim()) {
+                elements.push(this.evaluateExpression(current.trim()));
+            }
+            
+            return elements;
+        }
+        
+        // 字典字面量 {"key": "value", "key2": "value2"}
+        if (expr.startsWith('{') && expr.endsWith('}')) {
+            const content = expr.slice(1, -1).trim();
+            if (!content) return {};
+            
+            const dict: { [key: string]: any } = {};
+            let current = '';
+            let inString = false;
+            let stringChar = '';
+            let parenCount = 0;
+            let braceCount = 0;
+            let expectingValue = false;
+            let currentKey = '';
+            
+            for (let i = 0; i < content.length; i++) {
+                const char = content[i];
+                
+                if (!inString && (char === '"' || char === "'")) {
+                    inString = true;
+                    stringChar = char;
+                    current += char;
+                } else if (inString && char === stringChar) {
+                    inString = false;
+                    current += char;
+                } else if (!inString && char === '(') {
+                    parenCount++;
+                    current += char;
+                } else if (!inString && char === ')') {
+                    parenCount--;
+                    current += char;
+                } else if (!inString && char === '[') {
+                    braceCount++;
+                    current += char;
+                } else if (!inString && char === ']') {
+                    braceCount--;
+                    current += char;
+                } else if (!inString && char === ':') {
+                    currentKey = current.trim();
+                    current = '';
+                    expectingValue = true;
+                } else if (!inString && parenCount === 0 && braceCount === 0 && char === ',') {
+                    if (expectingValue && currentKey) {
+                        dict[currentKey] = this.evaluateExpression(current.trim());
+                        currentKey = '';
+                        expectingValue = false;
+                    }
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            if (expectingValue && currentKey && current.trim()) {
+                dict[currentKey] = this.evaluateExpression(current.trim());
+            }
+            
+            return dict;
+        }
+        
         // 字符串
         if ((expr.startsWith('"') && expr.endsWith('"')) || 
             (expr.startsWith("'") && expr.endsWith("'"))) {
@@ -325,6 +585,11 @@ export class GameLangInterpreter {
         // 布尔值
         if (expr === 'true' || expr === 'false') {
             return expr === 'true';
+        }
+        
+        // null值
+        if (expr === 'null' || expr === '空') {
+            return null;
         }
         
         // 变量
