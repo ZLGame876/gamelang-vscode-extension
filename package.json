@@ -2,7 +2,7 @@
   "name": "gamelang",
   "displayName": "GameLang - Game Programming Language",
   "description": "Complete support for GameLang programming language with syntax highlighting, IntelliSense, debugging, and AI integration",
-      "version": "1.3.12",
+      "version": "1.3.14",
   "publisher": "gamelang-team",
   "engines": {
     "vscode": "^1.60.0"
@@ -173,80 +173,23 @@
       }
     ],
     "menus": {
-      "commandPalette": [
+      "editor/title": [
         {
-          "command": "gamelang.runFile",
-          "when": "resourceExtname == .ln"
-        },
-        {
-          "command": "gamelang.aiGenerate",
-          "when": "resourceExtname == .ln"
-        },
-        {
-          "command": "gamelang.aiExplain",
-          "when": "resourceExtname == .ln && editorHasSelection"
-        },
-        {
-          "command": "gamelang.aiOptimize",
-          "when": "resourceExtname == .ln && editorHasSelection"
-        },
-        {
-          "command": "gamelang.aiRefactor",
-          "when": "resourceExtname == .ln && editorHasSelection"
-        },
-        {
-          "command": "gamelang.searchBuiltin",
-          "when": "resourceExtname == .ln"
-        },
-        {
-          "command": "gamelang.formatCode",
-          "when": "resourceExtname == .ln"
-        },
-        {
-          "command": "gamelang.lintCode",
-          "when": "resourceExtname == .ln"
+          "command": "gamelang.runButton",
+          "when": "resourceLangId == gamelang",
+          "group": "navigation@100"
         }
       ],
       "editor/context": [
         {
           "command": "gamelang.runFile",
-          "when": "resourceExtname == .ln",
-          "group": "1_modification"
-        },
+          "when": "resourceLangId == gamelang"
+        }
+      ],
+      "commandPalette": [
         {
-          "command": "gamelang.aiGenerate",
-          "when": "resourceExtname == .ln",
-          "group": "1_modification"
-        },
-        {
-          "command": "gamelang.aiExplain",
-          "when": "resourceExtname == .ln && editorHasSelection",
-          "group": "1_modification"
-        },
-        {
-          "command": "gamelang.aiOptimize",
-          "when": "resourceExtname == .ln && editorHasSelection",
-          "group": "1_modification"
-        },
-        {
-          "command": "gamelang.aiRefactor",
-          "when": "resourceExtname == .ln && editorHasSelection",
-          "group": "1_modification"
-        },
-        {
-          "command": "gamelang.searchBuiltin",
-          "when": "resourceExtname == .ln",
-          "group": "1_modification"
-        },
-        {
-          "command": "gamelang.formatCode",
-          "when": "resourceExtname == .ln",
-          "group": "1_modification"
-        },
-        {
-          "command": "gamelang.lintCode",
-          "when": "resourceExtname == .ln",
-          "group": "1_modification"
+          "command": "gamelang.showWelcome",
+          "when": "true"
         }
       ]
     },
