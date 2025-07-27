@@ -1204,18 +1204,44 @@ function activate(context) {
     });
     // 注册所有提供者
     context.subscriptions.push(testCommand, searchCommand, formatCodeCommand, lintCodeCommand, runFileCommand, aiGenerateCommand, aiExplainCommand, aiOptimizeCommand, aiRefactorCommand, startDebugCommand, toggleBreakpointCommand, showVariablesCommand, debugConsoleCommand, debugProvider, debugAdapterFactory, completionProvider, hoverProvider, formattingProvider, diagnosticCollection, changeDocumentListener, openDocumentListener, snippetProvider);
-    // 注册F5键快捷键
-    const f5Keybinding = vscode.commands.registerCommand('gamelang.runWithF5', () => {
+    // 运行按钮专用命令（输出到输出面板）
+    const runButtonCmd = vscode.commands.registerCommand('gamelang.runButton', () => {
+        console.log('🎮 执行gamelang.runButton命令（运行按钮）');
         const editor = vscode.window.activeTextEditor;
-        if (editor && editor.document.languageId === 'gamelang') {
-            // 直接调用runFile命令
-            vscode.commands.executeCommand('gamelang.runFile');
+        if (!editor) {
+            console.log('❌ 未找到活动编辑器');
+            vscode.window.showErrorMessage('未找到活动编辑器');
+            return;
         }
-        else {
-            vscode.window.showWarningMessage('请在GameLang文件中使用F5键运行');
+        const filePath = editor.document.fileName;
+        const languageId = editor.document.languageId;
+        console.log(`📁 文件路径: ${filePath}`);
+        console.log(`🔤 语言ID: ${languageId}`);
+        if (!filePath.endsWith('.ln')) {
+            console.log('❌ 不是.ln文件');
+            vscode.window.showErrorMessage('请在 .ln 文件中运行');
+            return;
         }
+        if (languageId !== 'gamelang') {
+            console.log('❌ 语言ID不匹配，尝试强制设置');
+            // 尝试强制设置语言ID
+            vscode.workspace.openTextDocument(filePath).then(doc => {
+                vscode.window.showTextDocument(doc, { viewColumn: vscode.ViewColumn.Active });
+            });
+            return;
+        }
+        console.log('✅ 开始执行GameLang代码（运行按钮）');
+        // 使用内置的GameLang解释器
+        const interpreter = new gamelang_interpreter_1.GameLangInterpreter();
+        interpreter.execute(filePath);
     });
-    context.subscriptions.push(f5Keybinding);
+    context.subscriptions.push(runButtonCmd);
+    // F5键运行命令
+    const runWithF5Cmd = vscode.commands.registerCommand('gamelang.runWithF5', () => {
+        console.log('🎮 执行gamelang.runWithF5命令');
+        vscode.commands.executeCommand('gamelang.runFile');
+    });
+    context.subscriptions.push(runWithF5Cmd);
 }
 exports.activate = activate;
 function deactivate() { }
