@@ -1120,7 +1120,9 @@ function activate(context) {
         console.log('✅ 开始执行GameLang代码');
         try {
             const interpreter = new gamelang_interpreter_1.GameLangInterpreter();
-            await interpreter.execute(filePath);
+            // 读取文件内容而不是传递文件路径
+            const code = editor.document.getText();
+            await interpreter.execute(code);
             vscode.window.showInformationMessage('GameLang代码执行完成！');
         }
         catch (error) {
@@ -1255,7 +1257,8 @@ function activate(context) {
         console.log('✅ 开始执行GameLang代码（运行按钮）');
         // 使用内置的GameLang解释器
         const interpreter = new gamelang_interpreter_1.GameLangInterpreter();
-        interpreter.execute(filePath);
+        const code = editor.document.getText();
+        interpreter.execute(code);
     });
     context.subscriptions.push(runButtonCmd);
     // F5键运行命令

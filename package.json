@@ -2,7 +2,7 @@
   "name": "gamelang",
   "displayName": "GameLang - Game Programming Language",
   "description": "Complete support for GameLang programming language with syntax highlighting, IntelliSense, debugging, and AI integration",
-      "version": "1.5.1",
+      "version": "1.5.3",
   "publisher": "gamelang-team",
   "engines": {
     "vscode": "^1.60.0"
@@ -179,7 +179,7 @@
     "menus": {
       "editor/title": [
         {
-          "command": "gamelang.runButton",
+          "command": "gamelang.runFile",
           "when": "resourceLangId == gamelang",
           "group": "navigation@100"
         }
