@@ -1090,20 +1090,42 @@ function activate(context) {
         }
     });
     const runFileCommand = vscode.commands.registerCommand('gamelang.runFile', async () => {
+        console.log('🎮 执行gamelang.runFile命令');
         const editor = vscode.window.activeTextEditor;
-        if (editor && editor.document.languageId === 'gamelang') {
+        if (!editor) {
+            console.log('❌ 未找到活动编辑器');
+            vscode.window.showErrorMessage('未找到活动编辑器');
+            return;
+        }
+        const filePath = editor.document.fileName;
+        const languageId = editor.document.languageId;
+        console.log(`📁 文件路径: ${filePath}`);
+        console.log(`🔤 语言ID: ${languageId}`);
+        if (!filePath.endsWith('.ln')) {
+            console.log('❌ 不是.ln文件');
+            vscode.window.showErrorMessage('请在 .ln 文件中运行');
+            return;
+        }
+        // 如果是.ln文件但语言ID不是gamelang，尝试强制设置
+        if (languageId !== 'gamelang') {
+            console.log('⚠️ 语言ID不匹配，尝试强制设置');
             try {
-                const code = editor.document.getText();
-                const interpreter = new gamelang_interpreter_1.GameLangInterpreter();
-                await interpreter.execute(code);
-                vscode.window.showInformationMessage('GameLang代码执行完成！');
+                await vscode.languages.setTextDocumentLanguage(editor.document, 'gamelang');
+                console.log('✅ 语言ID已强制设置为gamelang');
             }
             catch (error) {
-                vscode.window.showErrorMessage(`运行错误: ${error}`);
+                console.log('❌ 强制设置语言ID失败:', error);
             }
         }
-        else {
-            vscode.window.showWarningMessage('请在GameLang文件中使用此命令');
+        console.log('✅ 开始执行GameLang代码');
+        try {
+            const interpreter = new gamelang_interpreter_1.GameLangInterpreter();
+            await interpreter.execute(filePath);
+            vscode.window.showInformationMessage('GameLang代码执行完成！');
+        }
+        catch (error) {
+            console.error('❌ 执行错误:', error);
+            vscode.window.showErrorMessage(`运行错误: ${error}`);
         }
     });
     const aiGenerateCommand = vscode.commands.registerCommand('gamelang.aiGenerate', () => {
