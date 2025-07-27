@@ -11,6 +11,11 @@ function activate(context) {
     console.log('Extension Version:', context.extension.packageJSON.version);
     // 显示激活消息
     vscode.window.showInformationMessage('GameLang扩展已激活！搜索功能快捷键：Cmd+U');
+    // 添加一个简单的测试命令
+    const testCommand = vscode.commands.registerCommand('gamelang.test', () => {
+        vscode.window.showInformationMessage('GameLang测试命令工作正常！');
+        console.log('Test command executed successfully');
+    });
     // 强制设置文件关联
     vscode.workspace.getConfiguration('files').update('associations', {
         '*.ln': 'gamelang'
@@ -1198,7 +1203,19 @@ function activate(context) {
         }
     });
     // 注册所有提供者
-    context.subscriptions.push(searchCommand, formatCodeCommand, lintCodeCommand, runFileCommand, aiGenerateCommand, aiExplainCommand, aiOptimizeCommand, aiRefactorCommand, startDebugCommand, toggleBreakpointCommand, showVariablesCommand, debugConsoleCommand, debugProvider, debugAdapterFactory, completionProvider, hoverProvider, formattingProvider, diagnosticCollection, changeDocumentListener, openDocumentListener, snippetProvider);
+    context.subscriptions.push(testCommand, searchCommand, formatCodeCommand, lintCodeCommand, runFileCommand, aiGenerateCommand, aiExplainCommand, aiOptimizeCommand, aiRefactorCommand, startDebugCommand, toggleBreakpointCommand, showVariablesCommand, debugConsoleCommand, debugProvider, debugAdapterFactory, completionProvider, hoverProvider, formattingProvider, diagnosticCollection, changeDocumentListener, openDocumentListener, snippetProvider);
+    // 注册F5键快捷键
+    const f5Keybinding = vscode.commands.registerCommand('gamelang.runWithF5', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            // 直接调用runFile命令
+            vscode.commands.executeCommand('gamelang.runFile');
+        }
+        else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用F5键运行');
+        }
+    });
+    context.subscriptions.push(f5Keybinding);
 }
 exports.activate = activate;
 function deactivate() { }

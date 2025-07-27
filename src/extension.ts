@@ -12,6 +12,12 @@ export function activate(context: vscode.ExtensionContext) {
     // 显示激活消息
     vscode.window.showInformationMessage('GameLang扩展已激活！搜索功能快捷键：Cmd+U');
     
+    // 添加一个简单的测试命令
+    const testCommand = vscode.commands.registerCommand('gamelang.test', () => {
+        vscode.window.showInformationMessage('GameLang测试命令工作正常！');
+        console.log('Test command executed successfully');
+    });
+    
     // 强制设置文件关联
     vscode.workspace.getConfiguration('files').update('associations', {
         '*.ln': 'gamelang'
@@ -1296,6 +1302,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // 注册所有提供者
     context.subscriptions.push(
+        testCommand,
         searchCommand,
         formatCodeCommand,
         lintCodeCommand,
@@ -1318,6 +1325,19 @@ export function activate(context: vscode.ExtensionContext) {
         openDocumentListener,
         snippetProvider
     );
+
+    // 注册F5键快捷键
+    const f5Keybinding = vscode.commands.registerCommand('gamelang.runWithF5', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'gamelang') {
+            // 直接调用runFile命令
+            vscode.commands.executeCommand('gamelang.runFile');
+        } else {
+            vscode.window.showWarningMessage('请在GameLang文件中使用F5键运行');
+        }
+    });
+    
+    context.subscriptions.push(f5Keybinding);
 }
 
 export function deactivate() {} 

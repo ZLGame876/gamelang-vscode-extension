@@ -1,0 +1,12 @@
+# 简单测试 - 诊断运行问题
+print("测试开始")
+
+# 基本变量
+name = "GameLang"
+print("语言名称:", name)
+
+# 基本计算
+result = 1 + 1
+print("计算结果:", result)
+
+print("测试结束") 
